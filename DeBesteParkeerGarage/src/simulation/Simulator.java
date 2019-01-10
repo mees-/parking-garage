@@ -1,4 +1,4 @@
-package Parkeersimulator;
+package simulation;
 
 import java.util.Random;
 
@@ -179,6 +179,11 @@ public class Simulator {
     private void carLeavesSpot(Car car){
     	simulatorView.removeCarAt(car.getLocation());
         exitCarQueue.addCar(car);
+    }
+    
+    public static void main(String[] args) {
+    	Simulator sim = new Simulator();
+    	sim.run();
     }
 
 }
