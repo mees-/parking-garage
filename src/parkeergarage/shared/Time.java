@@ -52,4 +52,11 @@ public class Time {
 	public int getSecond() {
 		return second;
 	}
+	
+	/**
+	 * @return a string representation of the time
+	 */
+	public String toString() {
+		return "Day " + day + ", " + getWeekDay().toString() + " " + hour + ":" + minute + ":" + second;
+	}
 }
