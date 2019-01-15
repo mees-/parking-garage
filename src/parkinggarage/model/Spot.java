@@ -36,20 +36,23 @@ public class Spot implements Ticker {
 	}
 
 	/**
-	 * @param car the car to set
+	 * @param newCar the car to set
 	 */
-	public void setCar(Car car) throws IllegalStateException, IllegalArgumentException {
+	public void setCar(Car newCar) throws IllegalStateException, IllegalArgumentException {
+		if (newCar == null) {
+			throw new IllegalArgumentException("car cannot be null, the spot will free itself");
+		}
 		/*
 		 * note that the control flow here means that even if a car is a non-subscriber and
 		 * the spot is subscriber-only, if the spot is full the IllegalStateException will be thrown
 		 */
 		if (this.car == null) {
-			if (this.subscriberOnly && car.getType() != CarType.SUBSCRIBER) {
+			if (this.subscriberOnly && newCar.getType() != CarType.SUBSCRIBER) {
 				throw new IllegalArgumentException(
 						"This spot is for subscribers only, cannot assign non-subscriber car to it"
 						);
 			} else {
-				this.car = car;
+				this.car = newCar;
 			}
 		} else {
 			throw new IllegalStateException("Cannot assign car to occupied spot");
@@ -78,16 +81,26 @@ public class Spot implements Ticker {
 	}
 
 	/**
+	 * @return the subscriberOnly
+	 */
+	public boolean isSubscriberOnly() {
+		return subscriberOnly;
+	}
+
+	/**
 	 * @return a boolean indicating whether the spot is free
 	 */
 	public boolean isEmpty() {
 		return car == null;
 	}
-
-	@Override
+	
+	/**
+	 * a spot will tick and check if a car is still occupying this spot
+	 * it also adds the car 
+	 */
 	public void tick() {
 		if (!isEmpty() && car.getExitTime().greaterThan(Global.getSimulationTime())) {
-			
+			car = null;
 		}
 	}
 }
