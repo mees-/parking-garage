@@ -1,5 +1,7 @@
 package parkinggarage.model;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Random;
 
 import parkinggarage.shared.Settings;
@@ -8,9 +10,10 @@ import parkinggarage.shared.Time;
 
 public class Simulator implements Ticker {
 	private Garage garage;
-	private CarQueue entranceQueue;
-	private CarQueue paymentQueue;
-	private CarQueue exitQueue;
+	private CarQueue unplannedEntrance = new CarQueue();
+	private CarQueue subscriberEntrance = new CarQueue();
+	private CarQueue payment = new CarQueue();
+	private CarQueue exit = new CarQueue();
 	private Settings settings;
 	
 	private Time time = new Time(0, 0, 0);
@@ -24,10 +27,6 @@ public class Simulator implements Ticker {
 				settings.getPlaces(),
 				settings.getSubscriberPlaces()
 				);
-		
-		entranceQueue = new CarQueue(settings.getSubscribersFirstInQueue());
-		paymentQueue = new CarQueue(settings.getSubscribersFirstInQueue());
-		exitQueue = new CarQueue(settings.getSubscribersFirstInQueue());
 		
 		if (settings.getRandomSeed() != 0) {
 			this.random = new Random(settings.getRandomSeed());
@@ -44,14 +43,21 @@ public class Simulator implements Ticker {
 			if (spot.getCar().getExitTime().greaterThan(this.time)) {
 				Car leavingCar = spot.getCar();
 				spot.setCar(null);
-				paymentQueue.push(leavingCar);
+				if (leavingCar.getType() == CarType.SUBSCRIBER) {
+					exit.add(leavingCar);
+				} else {
+					payment.add(leavingCar);
+				}
 			}
 		}
 		
 		// remove the appropriate number of cars from payment queue
-		for (int i = 0; i < settings.getPaymentSpeed(); i++) {
-			
-		}
+		exit.addAll(payment.removeAmount(settings.getPaymentSpeed()));
 		
+		// remove cars from exit queue
+		exit.removeAmount(settings.getExitSpeed());
+		
+		// handle entrances
+		// subscribers
 	}
 }
