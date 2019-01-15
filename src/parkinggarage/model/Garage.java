@@ -5,32 +5,37 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Garage {
-	private List<Spot> spots = new ArrayList<>();
+	private Spot[] spots;
 	private int totalSpots;
+	private int subscriberPlaces;
 	
 	Garage(int floors, int rows, int places, int subscriberPlaces) {
 		if (subscriberPlaces > floors * rows * places) {
 			throw new IllegalArgumentException("Cannot have more subscribers than there are spots");
 		}
 		totalSpots = floors * rows * places;
+		this.subscriberPlaces = subscriberPlaces;
 		
+		spots = new Spot[floors * rows * places];
 		// generate all the spots
 		for (int z = 0; z < floors; z++) {
 			for (int x = 0; x < rows; x++) {
 				for (int y = 0; y < places; y++) {
-					spots.add(new Spot(z, x, y));
+					// Calculate the current car spot
+					// Calculate the first spot of the floor; Add the first spot of the row; Add the spot in the row
+					int i = (z * rows * places) + (x * places) + y;
+					if(i < subscriberPlaces)
+						
+						spots[i] = new Spot(z, x, y, CarType.SUBSCRIBER);
+					else
+						spots[i] = new Spot(z, x, y, CarType.UNPLANNED);
 				}
 			}
 		}
 	}
 	
-	public List<Spot> getSpots() {
+	public Spot[] getSpots() {
 		return spots;
-	}
-	
-	public List<Spot> getFilteredSpots(Predicate<Spot> predicate) {
-		// convert list to stream - filter stream - convert stream back to list
-		return spots.stream().filter(predicate).collect(Collectors.toList());
 	}
 	
 	public int getFreeSpots() {
@@ -52,9 +57,16 @@ public class Garage {
 	 * @return a free spot or if none are available null
 	 */
 	public Spot getFreeSpot(CarType type) {
-		for (Spot spot : getFilteredSpots(s -> s.getType() == type)) {
-			if (spot.isEmpty()) {
-				return spot;
+		if(type == CarType.SUBSCRIBER) {
+			for (int i = 0; i < subscriberPlaces; i++) {
+				if(spots[i].isEmpty())
+					return spots[i];
+			}
+		}
+		else {
+			for (int i = subscriberPlaces; i < totalSpots; i++) {
+				if(spots[i].isEmpty())
+					return spots[i];
 			}
 		}
 		return null;
