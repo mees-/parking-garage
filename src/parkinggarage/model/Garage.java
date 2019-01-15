@@ -1,4 +1,4 @@
-package parkeergarage.model;
+package parkinggarage.model;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -7,7 +7,10 @@ import java.util.stream.Collectors;
 public class Garage {
 	private List<Spot> spots;
 	
-	Garage(int floors, int rows, int places) {
+	Garage(int floors, int rows, int places, int subscribers) {
+		if (subscribers > floors * rows * places) {
+			throw new IllegalArgumentException("Cannot have more subscribers than there are spots");
+		}
 		spots = new ArrayList<Spot>();
 		
 		// generate all the spots
