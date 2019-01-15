@@ -19,6 +19,11 @@ public class Settings {
 	private static final int defaultPlaces = 30;
 	private static final int defaultSubscriberPlaces = 30;
 	
+	private static final long defaultRandomSeed = 0;
+	
+	private static final boolean defaultSubscribersFirstInQueue = false;
+	
+	private static final int defaultMinutesPerTick = 1;
 	
 	/*
 	 * Actual settings
@@ -36,6 +41,12 @@ public class Settings {
 	private int rows = defaultRows;
 	private int places = defaultPlaces;
 	private int subscriberPlaces = defaultSubscriberPlaces;
+	
+	private long randomSeed = defaultRandomSeed;
+	
+	private boolean subscribersFirstInQueue = defaultSubscribersFirstInQueue;
+	
+	private int minutesPerTick = defaultMinutesPerTick;
 
 	
 	/*
@@ -172,6 +183,42 @@ public class Settings {
 	 */
 	public void setSubscriberPlaces(int subscriberPlaces) {
 		this.subscriberPlaces = subscriberPlaces;
+	}
+	/**
+	 * @return the randomSeed
+	 */
+	public long getRandomSeed() {
+		return randomSeed;
+	}
+	/**
+	 * @param randomSeed the randomSeed to set
+	 */
+	public void setRandomSeed(long randomSeed) {
+		this.randomSeed = randomSeed;
+	}
+	/**
+	 * @return the subscribersFirstInQueue
+	 */
+	public boolean getSubscribersFirstInQueue() {
+		return subscribersFirstInQueue;
+	}
+	/**
+	 * @param subscribersFirstInQueue the subscribersFirstInQueue to set
+	 */
+	public void setSubscribersFirstInQueue(boolean subscribersFirstInQueue) {
+		this.subscribersFirstInQueue = subscribersFirstInQueue;
+	}
+	/**
+	 * @return the minutesPerTick
+	 */
+	public int getMinutesPerTick() {
+		return minutesPerTick;
+	}
+	/**
+	 * @param minutesPerTick the minutesPerTick to set
+	 */
+	public void setMinutesPerTick(int minutesPerTick) {
+		this.minutesPerTick = minutesPerTick;
 	}
 	
 }

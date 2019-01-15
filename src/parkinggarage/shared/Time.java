@@ -84,6 +84,10 @@ public class Time {
 		return Time.fromMinutes(this.getTotalMinutes() + subject.getTotalMinutes());
 	}
 	
+	public Time addMinutes(int mins) {
+		return Time.fromMinutes(this.getTotalMinutes() + mins);
+	}
+	
 	public Time substract(Time subject) {
 		return Time.fromMinutes(this.getTotalMinutes() - subject.getTotalMinutes());
 	}

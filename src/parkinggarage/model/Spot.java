@@ -1,9 +1,6 @@
 package parkinggarage.model;
 
-import parkinggarage.Global;
-import parkinggarage.shared.Ticker;
-
-public class Spot implements Ticker {
+public class Spot {
 	// The car occupying this spot
 	private Car car;
 	
@@ -94,15 +91,5 @@ public class Spot implements Ticker {
 	 */
 	public boolean isEmpty() {
 		return car == null;
-	}
-	
-	/**
-	 * a spot will tick and check if a car is still occupying this spot
-	 * it also adds the car 
-	 */
-	public void tick() {
-		if (!isEmpty() && car.getExitTime().greaterThan(Global.getSimulationTime())) {
-			car = null;
-		}
 	}
 }

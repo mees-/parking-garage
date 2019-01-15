@@ -1,48 +1,34 @@
 package parkinggarage.model;
 
+import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Queue;
 
 public class CarQueue {
-	private Queue<Car> unplannedCars = new LinkedList<>();
-	private Queue<Car> subscribedCars = new LinkedList<>();
+	private LinkedList<Car> queue = new LinkedList<>();
+	private boolean subscribersFirst;
 	
-	public boolean offer(Car car) {
-		switch (car.getType()) {
-		case UNPLANNED:
-			return unplannedCars.offer(car);	
-		case SUBSCRIBER:
-			return subscribedCars.offer(car);
-		default:
-			return false;
-		}
+	public CarQueue(boolean subscribersFirst) {
+		this.subscribersFirst = subscribersFirst;
 	}
 	
-	public Car poll() {
-		if (!subscribedCars.isEmpty()) {
-			return subscribedCars.poll();
-		} else if (!unplannedCars.isEmpty()) {
-			return unplannedCars.poll();
+	public void push(Car car) {
+		if (subscribersFirst) {
+			int idx = 0;
+			Iterator<Car> iter = queue.iterator();
+			while (iter.hasNext() && iter.next().getType() == CarType.SUBSCRIBER) {
+				idx++;
+			}
+			queue.add(idx, car);
 		} else {
-			return null;
+			queue.add(car);
 		}
 	}
 	
-	public Car peek() {
-		if (!subscribedCars.isEmpty()) {
-			return subscribedCars.peek();
-		} else if (!unplannedCars.isEmpty()) {
-			return unplannedCars.peek();
-		} else {
-			return null;
-		}
+	public Car getFirst() {
+		return queue.poll();
 	}
 	
-	public int size() {
-		return unplannedCars.size() + subscribedCars.size();
-	}
-	
-	public boolean isEmpty() {
-		return unplannedCars.isEmpty() && subscribedCars.isEmpty();
+	public Car peekFirst() {
+		return queue.peek();
 	}
 }
