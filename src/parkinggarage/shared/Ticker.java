@@ -1,4 +1,4 @@
-package parkinggarage.model;
+package parkinggarage.shared;
 
 public interface Ticker {
 	

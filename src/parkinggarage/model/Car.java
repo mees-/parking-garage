@@ -17,8 +17,10 @@ public class Car {
 		
 	}
 	
-	public Car(CarType type, Time startTime, Time endTime) {
+	public Car(CarType type, Time entranceTime, Time exitTime) {
 		this.type = type;
+		this.entranceTime = entranceTime;
+		this.exitTime = exitTime;
 	}
 	
 	

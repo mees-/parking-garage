@@ -5,14 +5,13 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Garage {
-	private List<Spot> spots;
+	private List<Spot> spots = new ArrayList<>();
 	private int totalSpots;
 	
-	Garage(int floors, int rows, int places, int subscribers) {
-		if (subscribers > floors * rows * places) {
+	Garage(int floors, int rows, int places, int subscriberPlaces) {
+		if (subscriberPlaces > floors * rows * places) {
 			throw new IllegalArgumentException("Cannot have more subscribers than there are spots");
 		}
-		spots = new ArrayList<Spot>();
 		totalSpots = floors * rows * places;
 		
 		// generate all the spots
@@ -52,8 +51,8 @@ public class Garage {
 	 * @param subscriber whether the spot should be a subscriber only spot
 	 * @return a free spot or if none are available null
 	 */
-	public Spot getFreeSpot(boolean subscriber) {
-		for (Spot spot : getFilteredSpots(s -> s.isSubscriberOnly() == subscriber)) {
+	public Spot getFreeSpot(CarType type) {
+		for (Spot spot : getFilteredSpots(s -> s.getType() == type)) {
 			if (spot.isEmpty()) {
 				return spot;
 			}
@@ -65,6 +64,10 @@ public class Garage {
 	 * @return a free non-subscriber spot or null if none are available
 	 */
 	public Spot getFreeSpot() {
-		return getFreeSpot(false);
+		return getFreeSpot(CarType.UNPLANNED);
+	}
+	
+	public void placeCar(Car car) {
+		getFreeSpot(car.getType()).setCar(car);
 	}
 }

@@ -1,6 +1,7 @@
 package parkinggarage.model;
 
 import parkinggarage.Global;
+import parkinggarage.shared.Ticker;
 
 public class Spot implements Ticker {
 	// The car occupying this spot
@@ -12,20 +13,20 @@ public class Spot implements Ticker {
 	private int place;
 	
 	// whether this is a subscriber-only spot
-	private boolean subscriberOnly;
+	private CarType type;
 
 	
-	public Spot(int floor, int row, int place, boolean subscriberOnly) {
+	public Spot(int floor, int row, int place, CarType type) {
 		this.floor = floor;
 		this.row = row;
 		this.place = place;
-		this.subscriberOnly = subscriberOnly;
+		this.type = type;
 		
 		// the car variable is intentionally left null, this indicates an empty spot
 	}
 	
 	public Spot(int floor, int row, int place) {
-		this(floor, row, place, false);
+		this(floor, row, place, CarType.UNPLANNED);
 	}
 
 	/**
@@ -47,9 +48,10 @@ public class Spot implements Ticker {
 		 * the spot is subscriber-only, if the spot is full the IllegalStateException will be thrown
 		 */
 		if (this.car == null) {
-			if (this.subscriberOnly && newCar.getType() != CarType.SUBSCRIBER) {
+			if (this.type != newCar.getType()) {
 				throw new IllegalArgumentException(
-						"This spot is for subscribers only, cannot assign non-subscriber car to it"
+						"Cannot assign car with type " + car.getType().toString() +
+							" to spot with type " + this.type.toString()
 						);
 			} else {
 				this.car = newCar;
@@ -81,10 +83,10 @@ public class Spot implements Ticker {
 	}
 
 	/**
-	 * @return the subscriberOnly
+	 * @return the type
 	 */
-	public boolean isSubscriberOnly() {
-		return subscriberOnly;
+	public CarType getType() {
+		return type;
 	}
 
 	/**
