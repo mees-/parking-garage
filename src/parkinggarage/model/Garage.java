@@ -18,7 +18,7 @@ public class Garage {
 		for (int z = 0; z < floors; z++) {
 			for (int x = 0; x < rows; x++) {
 				for (int y = 0; y < places; y++) {
-					spots.add(new Spot(z, x, y));
+					spots.add(new Spot(z, x, y, CarType.SUBSCRIBER));
 				}
 			}
 		}
