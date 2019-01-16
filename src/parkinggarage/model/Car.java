@@ -24,8 +24,8 @@ public class Car {
 	}
 	
 	
-	public Car(CarType type, Time startTime) {
-		this(type, startTime, startTime.add(Car.getRandomStayTime()));
+	public Car(CarType type, Time entranceTime) {
+		this(type, entranceTime, entranceTime.add(Car.getRandomStayTime()));
 	}
 	
 	public Car() {

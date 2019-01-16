@@ -5,12 +5,13 @@ public class Settings {
 	/*
 	 * Defaults
 	 */
-	private static final int defaultWeekDayArrivals = 100; // average number of arriving cars per hour
-	private static final int defaultWeekendArrivals = 200; // average number of arriving cars per hour
-	private static final int defaultWeekDayPassArrivals = 50; // average number of arriving cars per hour
-	private static final int defaultWeekendPassArrivals = 5; // average number of arriving cars per hour
+	private static final int defaultWeekDayUnplannedArrivals = 100; // average number of arriving cars per hour
+	private static final int defaultWeekendUnplannedArrivals = 200; // average number of arriving cars per hour
+	private static final int defaultWeekDaySubscriberArrivals = 50; // average number of arriving cars per hour
+	private static final int defaultWeekendSubscriberArrivals = 5; // average number of arriving cars per hour
 	
-	private static final int defaultEnterSpeed = 3; // number of cars that can enter per minute
+	private static final int defaultSubscriberEnterSpeed = 3; // number of scubscriber cars that can enter per minute
+	private static final int defaultUnplannedEnterSpeed = 3; // number of unplanned cars that can enter per minute
 	private static final int defaultPaymentSpeed = 7; // number of cars that can pay per minute
 	private static final int defaultExitSpeed = 5; // number of cars that can leave per minute
 	
@@ -28,12 +29,13 @@ public class Settings {
 	/*
 	 * Actual settings
 	 */
-	private int weekDayArrivals = defaultWeekDayArrivals; // average number of arriving cars per hour
-	private int weekendArrivals = defaultWeekendArrivals; // average number of arriving cars per hour
-	private int weekDayPassArrivals = defaultWeekDayPassArrivals; // average number of arriving cars per hour
-	private int weekendPassArrivals = defaultWeekendPassArrivals; // average number of arriving cars per hour
+	private int weekDayUnplannedArrivals = defaultWeekDayUnplannedArrivals; // average number of arriving cars per hour
+	private int weekendUnplannedArrivals = defaultWeekendUnplannedArrivals; // average number of arriving cars per hour
+	private int weekDaySubscriberArrivals = defaultWeekDaySubscriberArrivals; // average number of arriving cars per hour
+	private int weekendSubscriberArrivals = defaultWeekendSubscriberArrivals; // average number of arriving cars per hour
 
-	private int enterSpeed = defaultEnterSpeed; // number of cars that can enter per minute
+	private int subscriberEnterSpeed = defaultSubscriberEnterSpeed; // number of cars that can enter per minute
+	private int unplannedEnterSpeed = defaultUnplannedEnterSpeed;
 	private int paymentSpeed = defaultPaymentSpeed; // number of cars that can pay per minute
 	private int exitSpeed = defaultExitSpeed; // number of cars that can leave per minute
 
@@ -48,69 +50,80 @@ public class Settings {
 	
 	private int minutesPerTick = defaultMinutesPerTick;
 
-	
 	/*
 	 * Methods for modifying the settings
 	 */
 	/**
-	 * @return the weekDayArrivals
+	 * @return the weekDayUnplannedArrivals
 	 */
-	public int getWeekDayArrivals() {
-		return weekDayArrivals;
+	public int getWeekDayUnplannedArrivals() {
+		return weekDayUnplannedArrivals;
 	}
 	/**
-	 * @param weekDayArrivals the weekDayArrivals to set
+	 * @param weekDayUnplannedArrivals the weekDayUnplannedArrivals to set
 	 */
-	public void setWeekDayArrivals(int weekDayArrivals) {
-		this.weekDayArrivals = weekDayArrivals;
+	public void setWeekDayUnplannedArrivals(int weekDayUnplannedArrivals) {
+		this.weekDayUnplannedArrivals = weekDayUnplannedArrivals;
 	}
 	/**
-	 * @return the weekendArrivals
+	 * @return the weekendUnplannedArrivals
 	 */
-	public int getWeekendArrivals() {
-		return weekendArrivals;
+	public int getWeekendUnplannedArrivals() {
+		return weekendUnplannedArrivals;
 	}
 	/**
-	 * @param weekendArrivals the weekendArrivals to set
+	 * @param weekendUnplannedArrivals the weekendUnplannedArrivals to set
 	 */
-	public void setWeekendArrivals(int weekendArrivals) {
-		this.weekendArrivals = weekendArrivals;
+	public void setWeekendUnplannedArrivals(int weekendUnplannedArrivals) {
+		this.weekendUnplannedArrivals = weekendUnplannedArrivals;
 	}
 	/**
-	 * @return the weekDayPassArrivals
+	 * @return the weekDaySubscriberArrivals
 	 */
-	public int getWeekDayPassArrivals() {
-		return weekDayPassArrivals;
+	public int getWeekDaySubscriberArrivals() {
+		return weekDaySubscriberArrivals;
 	}
 	/**
-	 * @param weekDayPassArrivals the weekDayPassArrivals to set
+	 * @param weekDaySubscriberArrivals the weekDaySubscriberArrivals to set
 	 */
-	public void setWeekDayPassArrivals(int weekDayPassArrivals) {
-		this.weekDayPassArrivals = weekDayPassArrivals;
+	public void setWeekDaySubscriberArrivals(int weekDaySubscriberArrivals) {
+		this.weekDaySubscriberArrivals = weekDaySubscriberArrivals;
 	}
 	/**
-	 * @return the weekendPassArrivals
+	 * @return the weekendSubscriberArrivals
 	 */
-	public int getWeekendPassArrivals() {
-		return weekendPassArrivals;
+	public int getWeekendSubscriberArrivals() {
+		return weekendSubscriberArrivals;
 	}
 	/**
-	 * @param weekendPassArrivals the weekendPassArrivals to set
+	 * @param weekendSubscriberArrivals the weekendSubscriberArrivals to set
 	 */
-	public void setWeekendPassArrivals(int weekendPassArrivals) {
-		this.weekendPassArrivals = weekendPassArrivals;
+	public void setWeekendSubscriberArrivals(int weekendSubscriberArrivals) {
+		this.weekendSubscriberArrivals = weekendSubscriberArrivals;
 	}
 	/**
-	 * @return the enterSpeed
+	 * @return the subscriberEnterSpeed
 	 */
-	public int getEnterSpeed() {
-		return enterSpeed;
+	public int getSubscriberEnterSpeed() {
+		return subscriberEnterSpeed;
 	}
 	/**
-	 * @param enterSpeed the enterSpeed to set
+	 * @param subscriberEnterSpeed the subscriberEnterSpeed to set
 	 */
-	public void setEnterSpeed(int enterSpeed) {
-		this.enterSpeed = enterSpeed;
+	public void setSubscriberEnterSpeed(int subscriberEnterSpeed) {
+		this.subscriberEnterSpeed = subscriberEnterSpeed;
+	}
+	/**
+	 * @return the unplannedEnterSpeed
+	 */
+	public int getUnplannedEnterSpeed() {
+		return unplannedEnterSpeed;
+	}
+	/**
+	 * @param unplannedEnterSpeed the unplannedEnterSpeed to set
+	 */
+	public void setUnplannedEnterSpeed(int unplannedEnterSpeed) {
+		this.unplannedEnterSpeed = unplannedEnterSpeed;
 	}
 	/**
 	 * @return the paymentSpeed

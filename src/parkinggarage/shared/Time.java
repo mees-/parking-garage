@@ -49,6 +49,14 @@ public class Time {
 	public int getTotalMinutes() {
 		return day * 24 * 60 + hour * 60 + minute;
 	}
+	
+	public boolean isWeekDay() {
+		return (day % 7) < 5;
+	}
+	
+	public boolean isWeekend() {
+		return (day % 7) > 4;
+	}
 
 	public static Time fromMinutes(int min) {
 		int day = 0;
