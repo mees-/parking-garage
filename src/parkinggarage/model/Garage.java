@@ -1,9 +1,5 @@
 package parkinggarage.model;
 
-import java.util.*;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
 public class Garage {
 	private Spot[] spots;
 	private int totalSpots;
