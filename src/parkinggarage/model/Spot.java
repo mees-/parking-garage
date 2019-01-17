@@ -1,6 +1,13 @@
 package parkinggarage.model;
 
+import java.util.function.*;
+
 public class Spot {
+	public static final Function<CarType, Predicate<Spot>> isType = type -> s -> s.getType() == type;
+	public static final Predicate<Spot> isFree = s -> s.getCar() == null;
+	public static final Predicate<Spot> isOccupied = isFree.negate();
+	
+	
 	// The car occupying this spot
 	private Car car;
 	

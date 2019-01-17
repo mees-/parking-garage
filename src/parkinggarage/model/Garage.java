@@ -32,7 +32,7 @@ public class Garage {
 			}
 		}
 	}
-	
+
 	public Spot[] getSpots() {
 		return spots;
 	}

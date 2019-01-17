@@ -23,7 +23,7 @@ public class Simulator implements Ticker {
 				settings.getFloors(),
 				settings.getRows(),
 				settings.getPlaces(),
-				settings.getSubscriberPlaces()
+				settings.getSubscriberSpots()
 				);
 		
 		if (settings.getRandomSeed() != 0) {
@@ -117,5 +117,61 @@ public class Simulator implements Ticker {
 				"Paying cars: " + payment.size() + " " + 
 				"Exiting cars: " + exit.size() + " " + 
 				"time: " + time;
+	}
+
+	/**
+	 * @return the garage
+	 */
+	public Garage getGarage() {
+		return garage;
+	}
+
+	/**
+	 * @return the unplannedEntrance
+	 */
+	public CarQueue getUnplannedEntrance() {
+		return unplannedEntrance;
+	}
+
+	/**
+	 * @return the subscriberEntrance
+	 */
+	public CarQueue getSubscriberEntrance() {
+		return subscriberEntrance;
+	}
+
+	/**
+	 * @return the payment
+	 */
+	public CarQueue getPayment() {
+		return payment;
+	}
+
+	/**
+	 * @return the exit
+	 */
+	public CarQueue getExit() {
+		return exit;
+	}
+
+	/**
+	 * @return the settings
+	 */
+	public Settings getSettings() {
+		return settings;
+	}
+
+	/**
+	 * @return the time
+	 */
+	public Time getTime() {
+		return time;
+	}
+
+	/**
+	 * @return the random
+	 */
+	public Random getRandom() {
+		return random;
 	}
 }
