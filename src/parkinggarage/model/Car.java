@@ -1,7 +1,8 @@
 package parkinggarage.model;
 
-import parkinggarage.Global;
-import parkinggarage.shared.Time;
+import java.util.Random;
+
+import parkinggarage.util.Time;
 
 public class Car {
 	
@@ -11,8 +12,8 @@ public class Car {
 	
 	private CarType type;
 	
-	private static Time getRandomStayTime() {
-		int stayInMinutes = (int) (15 + Global.getRandom().nextFloat() * 3 * 60);
+	private static Time getRandomStayTime(Random random) {
+		int stayInMinutes = (int) (15 + random.nextFloat() * 3 * 60);
 		return Time.fromMinutes(stayInMinutes);
 		
 	}
@@ -24,12 +25,8 @@ public class Car {
 	}
 	
 	
-	public Car(CarType type, Time entranceTime) {
-		this(type, entranceTime, entranceTime.add(Car.getRandomStayTime()));
-	}
-	
-	public Car() {
-		this(CarType.UNPLANNED, Global.getSimulationTime());
+	public Car(CarType type, Time entranceTime, Random random) {
+		this(type, entranceTime, entranceTime.add(Car.getRandomStayTime(random)));
 	}
 
 	/**

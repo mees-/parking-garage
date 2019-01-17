@@ -1,5 +1,8 @@
 package parkinggarage.model;
 
+import java.util.ArrayList;
+import java.util.function.Predicate;
+
 public class Garage {
 	private Spot[] spots;
 	private int totalSpots;
@@ -34,7 +37,7 @@ public class Garage {
 		return spots;
 	}
 	
-	public int getFreeSpots() {
+	public int getNumberOfFreeSpots() {
 		int freeSpots = 0;
 		for (Spot spot : spots) {
 			if (spot.isEmpty()) {
@@ -44,8 +47,18 @@ public class Garage {
 		return freeSpots;
 	}
 	
-	public int getOccupiedSpots() {
-		return totalSpots - getFreeSpots();
+	public ArrayList<Spot> getFilterdSpots(Predicate<Spot> predicate) {
+		ArrayList<Spot> result = new ArrayList<>();
+		for (Spot spot : spots) {
+			if (predicate.test(spot)) {
+				result.add(spot);
+			}
+		}
+		return result;
+	}
+	
+	public int getNumberOfOccupiedSpots() {
+		return totalSpots - getNumberOfFreeSpots();
 	}
 	
 	/**

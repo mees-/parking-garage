@@ -1,5 +1,5 @@
-package parkinggarage.shared;
-import parkinggarage.shared.WeekDay;
+package parkinggarage.util;
+import parkinggarage.util.WeekDay;
 
 public class Time {
 	private int day;
@@ -108,7 +108,15 @@ public class Time {
 		return this.getTotalMinutes() < subject.getTotalMinutes();
 	}
 	
-	public boolean equalTo(Time subject) {
+	public boolean equals(Time subject) {
 		return this.getTotalMinutes() == subject.getTotalMinutes();
+	}
+	
+	public boolean greaterThanOrEquals(Time subject) {
+		return greaterThan(subject) || equals(subject);
+	}
+	
+	public boolean smallerThanOrEquals(Time subject) {
+		return smallerThan(subject) || equals(subject);
 	}
 }

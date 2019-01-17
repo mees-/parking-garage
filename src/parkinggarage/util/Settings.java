@@ -1,4 +1,4 @@
-package parkinggarage.shared;
+package parkinggarage.util;
 
 public class Settings {
 	

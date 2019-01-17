@@ -1,9 +1,10 @@
 package parkinggarage.model;
 
 import java.util.Random;
-import parkinggarage.shared.Settings;
-import parkinggarage.shared.Ticker;
-import parkinggarage.shared.Time;
+
+import parkinggarage.util.Settings;
+import parkinggarage.util.Ticker;
+import parkinggarage.util.Time;
 
 public class Simulator implements Ticker {
 	private Garage garage;
@@ -30,16 +31,28 @@ public class Simulator implements Ticker {
 		}
 		
 	}
+	
+	public Simulator() {
+		// use default settings
+		this(new Settings());
+	}
 
 	@Override
 	public void tick() {
+		// remove cars from exit queue
+		exit.removeAmount(settings.getExitSpeed());
+		
+		// remove the appropriate number of cars from payment queue
+		exit.addAll(payment.removeAmount(settings.getPaymentSpeed()));
+		
 		// increment time
 		time = time.addMinutes(settings.getMinutesPerTick());
+
 		// tick all parking spots
-		for (Spot spot : garage.getSpots()) {
-			if (spot.getCar().getExitTime().greaterThan(this.time)) {
+		for (Spot spot : garage.getFilterdSpots(spot -> spot.getCar() != null)) {
+			if (spot.getCar().getExitTime().smallerThanOrEquals(this.time)) {
 				Car leavingCar = spot.getCar();
-				spot.setCar(null);
+				spot.clearCar();
 				if (leavingCar.getType() == CarType.SUBSCRIBER) {
 					exit.add(leavingCar);
 				} else {
@@ -47,12 +60,6 @@ public class Simulator implements Ticker {
 				}
 			}
 		}
-		
-		// remove the appropriate number of cars from payment queue
-		exit.addAll(payment.removeAmount(settings.getPaymentSpeed()));
-		
-		// remove cars from exit queue
-		exit.removeAmount(settings.getExitSpeed());
 		
 		// handle entrances
 		// subscribers
@@ -70,7 +77,7 @@ public class Simulator implements Ticker {
 				&& !unplannedEntrance.isEmpty()
 				&& garage.getFreeSpot(CarType.UNPLANNED) != null) {
 			Spot newSpot = garage.getFreeSpot(CarType.UNPLANNED);
-			newSpot.setCar(subscriberEntrance.remove());
+			newSpot.setCar(unplannedEntrance.remove());
 			unplannedHandled++;
 		}
 		
@@ -79,13 +86,13 @@ public class Simulator implements Ticker {
 		for (int i = 0; i < getCarsArriving(CarType.SUBSCRIBER); i++) {
 			// TODO: the time starts from when it's added to the queue now,
 			// fix it so it starts when the car gets to a spot
-			subscriberEntrance.add(new Car(CarType.SUBSCRIBER, time));
+			subscriberEntrance.add(new Car(CarType.SUBSCRIBER, time, random));
 		}
 		// unplanned
 		for (int i = 0; i < getCarsArriving(CarType.UNPLANNED); i++) {
 			// TODO: the time starts from when it's added to the queue now,
 			// fix it so it starts when the car gets to a spot
-			unplannedEntrance.add(new Car(CarType.UNPLANNED, time));
+			unplannedEntrance.add(new Car(CarType.UNPLANNED, time, random));
 		}
 	}
 	
@@ -101,5 +108,14 @@ public class Simulator implements Ticker {
 		double standardDeviation = averageNumberOfCarsPerHour * 0.3;
         double numberOfCarsPerHour = averageNumberOfCarsPerHour + random.nextGaussian() * standardDeviation;
         return (int)Math.round(numberOfCarsPerHour / 60);
+	}
+	
+	public String toString() {
+		return super.toString() + " " +
+				"occupied spots: " + garage.getNumberOfOccupiedSpots() + " " +
+				"Cars in entrances: " + (subscriberEntrance.size() + unplannedEntrance.size()) + " " +
+				"Paying cars: " + payment.size() + " " + 
+				"Exiting cars: " + exit.size() + " " + 
+				"time: " + time;
 	}
 }
