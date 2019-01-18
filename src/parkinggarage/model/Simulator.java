@@ -1,5 +1,7 @@
 package parkinggarage.model;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import parkinggarage.util.Settings;
@@ -17,6 +19,9 @@ public class Simulator implements Ticker {
 	private Time time = new Time(0, 0, 0);
 	private Random random = new Random();
 	
+	// this is for collecting stats
+	private Map<CarType, Integer> carsArrivedLastTick = new HashMap<>();
+	
 	public Simulator(Settings settings) {
 		this.settings = settings;
 		garage = new Garage(
@@ -29,7 +34,6 @@ public class Simulator implements Ticker {
 		if (settings.getRandomSeed() != 0) {
 			this.random = new Random(settings.getRandomSeed());
 		}
-		
 	}
 	
 	public Simulator() {
@@ -83,17 +87,23 @@ public class Simulator implements Ticker {
 		
 		// handle arriving cars
 		// subscribers
-		for (int i = 0; i < getCarsArriving(CarType.SUBSCRIBER); i++) {
+		int subscribersArriving = getCarsArriving(CarType.SUBSCRIBER);
+		for (int i = 0; i < subscribersArriving; i++) {
 			// TODO: the time starts from when it's added to the queue now,
 			// fix it so it starts when the car gets to a spot
 			subscriberEntrance.add(new Car(CarType.SUBSCRIBER, time, random));
 		}
+		carsArrivedLastTick.put(CarType.SUBSCRIBER, subscribersArriving);
+		
 		// unplanned
-		for (int i = 0; i < getCarsArriving(CarType.UNPLANNED); i++) {
+		int unplannedArriving = getCarsArriving(CarType.UNPLANNED);
+		for (int i = 0; i < unplannedArriving; i++) {
 			// TODO: the time starts from when it's added to the queue now,
 			// fix it so it starts when the car gets to a spot
 			unplannedEntrance.add(new Car(CarType.UNPLANNED, time, random));
 		}
+
+		carsArrivedLastTick.put(CarType.UNPLANNED, unplannedArriving);
 	}
 	
 	private int getCarsArriving(CarType type) {
@@ -105,6 +115,7 @@ public class Simulator implements Ticker {
 				: type == CarType.UNPLANNED
 					? settings.getWeekendSubscriberArrivals()
 					: settings.getWeekendUnplannedArrivals();
+
 		double standardDeviation = averageNumberOfCarsPerHour * 0.3;
         double numberOfCarsPerHour = averageNumberOfCarsPerHour + random.nextGaussian() * standardDeviation;
         return (int)Math.round(numberOfCarsPerHour / 60);
@@ -173,5 +184,9 @@ public class Simulator implements Ticker {
 	 */
 	public Random getRandom() {
 		return random;
+	}
+	
+	public int getCarsArrivedLastTick(CarType type) {
+		return carsArrivedLastTick.get(type);
 	}
 }

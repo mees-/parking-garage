@@ -20,7 +20,7 @@ public class Settings {
 	private static final int defaultFloors = 3;
 	private static final int defaultRows = 4;
 	private static final int defaultPlaces = 30;
-	private static final int defaultSubscriberSpots = 30;
+	private static final int defaultSubscriberSpots = 80;
 	
 	private static final long defaultRandomSeed = 0;
 	
