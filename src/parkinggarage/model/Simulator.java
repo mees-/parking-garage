@@ -73,6 +73,7 @@ public class Simulator implements Ticker {
 				&& garage.getFreeSpot(CarType.SUBSCRIBER) != null) {
 			Spot newSpot = garage.getFreeSpot(CarType.SUBSCRIBER);
 			newSpot.setCar(subscriberEntrance.remove());
+			newSpot.getCar().setEntranceTime(time);
 			subscribersHandled++;
 		}
 		// unplanned cars
@@ -82,6 +83,7 @@ public class Simulator implements Ticker {
 				&& garage.getFreeSpot(CarType.UNPLANNED) != null) {
 			Spot newSpot = garage.getFreeSpot(CarType.UNPLANNED);
 			newSpot.setCar(unplannedEntrance.remove());
+			newSpot.getCar().setEntranceTime(time);
 			unplannedHandled++;
 		}
 		
@@ -89,18 +91,14 @@ public class Simulator implements Ticker {
 		// subscribers
 		int subscribersArriving = getCarsArriving(CarType.SUBSCRIBER);
 		for (int i = 0; i < subscribersArriving; i++) {
-			// TODO: the time starts from when it's added to the queue now,
-			// fix it so it starts when the car gets to a spot
-			subscriberEntrance.add(new Car(CarType.SUBSCRIBER, time, random));
+			subscriberEntrance.add(new Car(CarType.SUBSCRIBER, random));
 		}
 		carsArrivedLastTick.put(CarType.SUBSCRIBER, subscribersArriving);
 		
 		// unplanned
 		int unplannedArriving = getCarsArriving(CarType.UNPLANNED);
 		for (int i = 0; i < unplannedArriving; i++) {
-			// TODO: the time starts from when it's added to the queue now,
-			// fix it so it starts when the car gets to a spot
-			unplannedEntrance.add(new Car(CarType.UNPLANNED, time, random));
+			unplannedEntrance.add(new Car(CarType.UNPLANNED, random));
 		}
 
 		carsArrivedLastTick.put(CarType.UNPLANNED, unplannedArriving);
