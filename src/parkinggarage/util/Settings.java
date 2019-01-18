@@ -12,8 +12,8 @@ public class Settings {
 	private static final int defaultWeekDaySubscriberArrivals = 50; // average number of arriving cars per hour
 	private static final int defaultWeekendSubscriberArrivals = 5; // average number of arriving cars per hour
 	
-	private static final int defaultSubscriberEnterSpeed = 3; // number of subscriber cars that can enter per minute
-	private static final int defaultUnplannedEnterSpeed = 3; // number of unplanned cars that can enter per minute
+	private static final int defaultSubscriberEnterSpeed = 3; // number of subscriber cars that can enter per minute per entrance
+	private static final int defaultUnplannedEnterSpeed = 3; // number of unplanned cars that can enter per minute per entrance
 	private static final int defaultPaymentSpeed = 7; // number of cars that can pay per minute
 	private static final int defaultExitSpeed = 5; // number of cars that can leave per minute
 	
@@ -53,6 +53,28 @@ public class Settings {
 	/*
 	 * Methods for modifying the settings
 	 */
+
+	public int getCarsArriving(Time time, CarType type) {
+		if (time.isWeekDay()) {
+			switch (type) {
+				case SUBSCRIBER:
+					return weekDaySubscriberArrivals;
+				case UNPLANNED:
+					return weekDayUnplannedArrivals;
+				default:
+					return 0;
+			}
+		} else {
+			switch (type) {
+				case SUBSCRIBER:
+					return weekendSubscriberArrivals;
+				case UNPLANNED:
+					return weekendUnplannedArrivals;
+				default:
+					return 0;
+			}
+		}
+	}
 	/**
 	 * @return the weekDayUnplannedArrivals
 	 */

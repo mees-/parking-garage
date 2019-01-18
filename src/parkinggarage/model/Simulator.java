@@ -105,14 +105,7 @@ public class Simulator implements Ticker {
 	}
 	
 	private int getCarsArriving(CarType type) {
-		int averageNumberOfCarsPerHour = 
-				time.isWeekDay()
-				? type == CarType.SUBSCRIBER
-					? settings.getWeekDaySubscriberArrivals()
-					: settings.getWeekDayUnplannedArrivals()
-				: type == CarType.UNPLANNED
-					? settings.getWeekendSubscriberArrivals()
-					: settings.getWeekendUnplannedArrivals();
+		int averageNumberOfCarsPerHour = settings.getCarsArriving(time, type);
 
 		double standardDeviation = averageNumberOfCarsPerHour * 0.3;
         double numberOfCarsPerHour = averageNumberOfCarsPerHour + random.nextGaussian() * standardDeviation;
