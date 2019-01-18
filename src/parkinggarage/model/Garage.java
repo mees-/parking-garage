@@ -62,7 +62,7 @@ public class Garage {
 	}
 	
 	/**
-	 * @param subscriber whether the spot should be a subscriber only spot
+	 * @param type what type the spot should be
 	 * @return a free spot or if none are available null
 	 */
 	public Spot getFreeSpot(CarType type) {
