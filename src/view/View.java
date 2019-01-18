@@ -8,15 +8,13 @@ import javax.swing.JFrame;
 public class View extends JFrame{
 	public SimulatorView simView;
 	
-	public View(int floors, int rows, int places, parkinggarage.model.Spot[] spots) {
+	public View(int floors, int rows, int places) {
 		simView = new SimulatorView(floors, rows, places);
 		
 		Container contentPane = getContentPane();
 		contentPane.add(simView, BorderLayout.CENTER);
 		pack();
 		setVisible(true);
-		
-		updateView(spots);
 	}
 	
 	public void updateView(parkinggarage.model.Spot[] spots) {

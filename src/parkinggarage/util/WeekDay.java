@@ -1,4 +1,4 @@
-package parkinggarage.shared;
+package parkinggarage.util;
 
 public enum WeekDay {
 	MONDAY(0),

@@ -1,7 +1,8 @@
 package parkinggarage.model;
 
-import parkinggarage.Global;
-import parkinggarage.shared.Time;
+import java.util.Random;
+
+import parkinggarage.util.Time;
 
 public class Car {
 	
@@ -10,9 +11,11 @@ public class Car {
 	private Time exitTime;
 	
 	private CarType type;
+
+	private Random random;
 	
-	private static Time getRandomStayTime() {
-		int stayInMinutes = (int) (15 + Global.getRandom().nextFloat() * 3 * 60);
+	private static Time getRandomStayTime(Random random) {
+		int stayInMinutes = (int) (15 + random.nextFloat() * 3 * 60);
 		return Time.fromMinutes(stayInMinutes);
 		
 	}
@@ -22,14 +25,10 @@ public class Car {
 		this.entranceTime = entranceTime;
 		this.exitTime = exitTime;
 	}
-	
-	
-	public Car(CarType type, Time startTime) {
-		this(type, startTime, startTime.add(Car.getRandomStayTime()));
-	}
-	
-	public Car() {
-		this(CarType.UNPLANNED, Global.getSimulationTime());
+
+	public Car(CarType type, Random random) {
+		this.type = type;
+		this.random = random;
 	}
 
 	/**
@@ -42,8 +41,13 @@ public class Car {
 	/**
 	 * @param entranceTime the entranceTime to set
 	 */
-	public void setEntranceTime(Time entranceTime) {
-		this.entranceTime = entranceTime;
+	public void setEntranceTime(Time entranceTime) throws IllegalStateException {
+		if (this.entranceTime == null) {
+			this.entranceTime = entranceTime;
+			this.exitTime = entranceTime.add(getRandomStayTime(this.random));
+		} else {
+			throw new IllegalStateException("Cannot change entranceTime");
+		}
 	}
 
 	/**

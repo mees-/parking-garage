@@ -1,8 +1,7 @@
 package parkinggarage.model;
 
-import java.util.*;
+import java.util.ArrayList;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class Garage {
 	private Spot[] spots;
@@ -33,12 +32,12 @@ public class Garage {
 			}
 		}
 	}
-	
+
 	public Spot[] getSpots() {
 		return spots;
 	}
 	
-	public int getFreeSpots() {
+	public int getNumberOfFreeSpots() {
 		int freeSpots = 0;
 		for (Spot spot : spots) {
 			if (spot.isEmpty()) {
@@ -48,12 +47,22 @@ public class Garage {
 		return freeSpots;
 	}
 	
-	public int getOccupiedSpots() {
-		return totalSpots - getFreeSpots();
+	public ArrayList<Spot> getFilterdSpots(Predicate<Spot> predicate) {
+		ArrayList<Spot> result = new ArrayList<>();
+		for (Spot spot : spots) {
+			if (predicate.test(spot)) {
+				result.add(spot);
+			}
+		}
+		return result;
+	}
+	
+	public int getNumberOfOccupiedSpots() {
+		return totalSpots - getNumberOfFreeSpots();
 	}
 	
 	/**
-	 * @param subscriber whether the spot should be a subscriber only spot
+	 * @param type what type the spot should be
 	 * @return a free spot or if none are available null
 	 */
 	public Spot getFreeSpot(CarType type) {

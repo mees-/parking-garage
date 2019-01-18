@@ -1,6 +1,13 @@
 package parkinggarage.model;
 
+import java.util.function.*;
+
 public class Spot {
+	public static final Function<CarType, Predicate<Spot>> isType = type -> s -> s.getType() == type;
+	public static final Predicate<Spot> isFree = s -> s.getCar() == null;
+	public static final Predicate<Spot> isOccupied = isFree.negate();
+	
+	
 	// The car occupying this spot
 	private Car car;
 	
@@ -36,10 +43,7 @@ public class Spot {
 	/**
 	 * @param newCar the car to set
 	 */
-	public void setCar(Car newCar) throws IllegalStateException, IllegalArgumentException {
-		if (newCar == null) {
-			throw new IllegalArgumentException("car cannot be null, the spot will free itself");
-		}
+	public void setCar(Car newCar) throws IllegalStateException {
 		/*
 		 * note that the control flow here means that even if a car is a non-subscriber and
 		 * the spot is subscriber-only, if the spot is full the IllegalStateException will be thrown
@@ -56,6 +60,12 @@ public class Spot {
 		} else {
 			throw new IllegalStateException("Cannot assign car to occupied spot");
 		}
+	}
+	
+	public Car clearCar() {
+		Car result = car;
+		car = null;
+		return result;
 	}
 	
 	/**
