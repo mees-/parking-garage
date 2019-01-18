@@ -14,12 +14,12 @@ public class StatCollector implements Ticker {
 		if (list.size() == 0) {
 			return 0;
 		}
-		int total = 0;
+		long total = 0;
 		for (Integer i : list) {
 			total += i;
 		}
 		
-		return total / list.size();
+		return (int) (total / list.size());
 	}
 	
 	public static List<Integer> getReducedList(List<Integer> list, int amount) {
