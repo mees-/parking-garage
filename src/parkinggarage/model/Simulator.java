@@ -50,8 +50,17 @@ public class Simulator implements Ticker {
 		exit.addAll(payment.removeAmount(settings.getPaymentSpeed()));
 		
 		// increment time
-		time = time.addMinutes(settings.getMinutesPerTick());
+		time = time.addMinutes(1);
 
+		tickSpots();
+		handleEntrances();
+		handleArriving();
+	}
+
+	/*
+	 * Methods for tasks for a tick
+	 */
+	private void tickSpots() {
 		// tick all parking spots
 		for (Spot spot : garage.getFilterdSpots(spot -> spot.getCar() != null)) {
 			if (spot.getCar().getExitTime().smallerThanOrEquals(this.time)) {
@@ -64,8 +73,9 @@ public class Simulator implements Ticker {
 				}
 			}
 		}
-		
-		// handle entrances
+	}
+
+	private void handleEntrances() {
 		// subscribers
 		int subscribersHandled = 0;
 		while (subscribersHandled < settings.getSubscriberEnterSpeed()
@@ -76,6 +86,7 @@ public class Simulator implements Ticker {
 			newSpot.getCar().setEntranceTime(time);
 			subscribersHandled++;
 		}
+		
 		// unplanned cars
 		int unplannedHandled = 0;
 		while (unplannedHandled < settings.getUnplannedEnterSpeed()
@@ -86,8 +97,9 @@ public class Simulator implements Ticker {
 			newSpot.getCar().setEntranceTime(time);
 			unplannedHandled++;
 		}
-		
-		// handle arriving cars
+	}
+
+	private void handleArriving() {
 		// subscribers
 		int subscribersArriving = getCarsArriving(CarType.SUBSCRIBER);
 		for (int i = 0; i < subscribersArriving; i++) {

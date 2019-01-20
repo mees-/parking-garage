@@ -23,8 +23,7 @@ public class Settings {
 	private static final int defaultSubscriberSpots = 80;
 	
 	private static final long defaultRandomSeed = 0;
-	
-	private static final int defaultMinutesPerTick = 1;
+
 	private static final int defaultTickPause = 50;
 	
 	/*
@@ -46,8 +45,7 @@ public class Settings {
 	private int subscriberSpots = defaultSubscriberSpots;
 	
 	private long randomSeed = defaultRandomSeed;
-	
-	private int minutesPerTick = defaultMinutesPerTick;
+
 	private int tickPause = defaultTickPause;
 
 	/*
@@ -243,18 +241,6 @@ public class Settings {
 	 */
 	public void setRandomSeed(long randomSeed) {
 		this.randomSeed = randomSeed;
-	}
-	/**
-	 * @return the minutesPerTick
-	 */
-	public int getMinutesPerTick() {
-		return minutesPerTick;
-	}
-	/**
-	 * @param minutesPerTick the minutesPerTick to set
-	 */
-	public void setMinutesPerTick(int minutesPerTick) {
-		this.minutesPerTick = minutesPerTick;
 	}
 	
 	public int getTickPause() {
