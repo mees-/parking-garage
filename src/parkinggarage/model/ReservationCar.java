@@ -3,7 +3,7 @@ package parkinggarage.model;
 import parkinggarage.util.Time;
 import parkinggarage.util.Settings;
 
-class ReservationCar extends Car {
+public class ReservationCar extends Car {
   private Time time;
   private Spot spot;
   private Time arrivalTime;
