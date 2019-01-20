@@ -1,20 +1,17 @@
 package parkinggarage.model;
 
-
-
 import parkinggarage.util.Time;
 import parkinggarage.util.Settings;
 
-class Reservation {
-  private Car car;
+class ReservationCar extends Car {
   private Time time;
   private Spot spot;
   private Time arrivalTime;
 
   private Settings settings;
 
-  public Reservation(Car car, Time time, Settings settings) {
-    this.car = car;
+  public ReservationCar(Time time, Settings settings) {
+    super(CarType.RESERVATION, settings.getRandom());
     this.time = time;
     this.settings = settings;
 
@@ -28,10 +25,6 @@ class Reservation {
       arrivalTime = time.addMinutes(-1 * settings.getReservationTimeBefore())
                       .addMinutes(minutesAfterStart);
     }
-  }
-
-  public Car getCar() {
-    return this.car;
   }
 
   public Time getTime() {

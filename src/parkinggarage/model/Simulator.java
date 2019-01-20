@@ -10,7 +10,7 @@ public class Simulator implements Ticker {
 	private Garage garage;
 	private CarQueue unplannedEntrance = new CarQueue();
 	private CarQueue subscriberEntrance = new CarQueue();
-	private List<Reservation> reservations = new ArrayList<>();
+	private List<ReservationCar> reservations = new ArrayList<>();
 	private CarQueue payment = new CarQueue();
 	private CarQueue exit = new CarQueue();
 	private Settings settings;
@@ -74,15 +74,22 @@ public class Simulator implements Ticker {
 
 	private void handleEntrances() {
 		// subscribers
-		// TODO: add logic for reservations
-		int subscribersHandled = 0;
-		while (subscribersHandled < settings.getSubscriberEnterSpeed()
-				&& !subscriberEntrance.isEmpty()
-				&& garage.getFreeSpot(CarType.SUBSCRIBER) != null) {
-			Spot newSpot = garage.getFreeSpot(CarType.SUBSCRIBER);
-			newSpot.setCar(subscriberEntrance.remove());
-			newSpot.getCar().setEntranceTime(time);
-			subscribersHandled++;
+		for (int i = 0; i < settings.getSubscriberEnterSpeed(); i++) {
+			if (subscriberEntrance.isEmpty()) {
+				break;
+			}
+			Car arrivingCar = subscriberEntrance.remove();
+			Spot newSpot;
+			if (arrivingCar instanceof ReservationCar) {
+				newSpot = ((ReservationCar) arrivingCar).getSpot();
+			} else {
+				newSpot = garage.getFreeSpot(CarType.SUBSCRIBER);
+			}
+			if (newSpot == null) {
+				break;
+			}
+			newSpot.setCar(arrivingCar);
+			arrivingCar.setEntranceTime(time);
 		}
 		
 		// unplanned cars
@@ -124,13 +131,13 @@ public class Simulator implements Ticker {
 	}
 
 	private void hanldeReservations() {
-		for (Reservation reservation : reservations) {
+		for (ReservationCar reservation : reservations) {
 			if (reservation.getStartTime().smallerThanOrEquals(time)
-					&& reservation.getSpot() != null) {
+					&& reservation.getSpot() == null) {
 						Spot spot = garage.getFreeSpot(CarType.UNPLANNED);
 						if (spot != null) {
-							reservation.setSpot(spot);
 							spot.reserve();
+							reservation.setSpot(spot);
 						}
 			}
 			if (reservation.getEndTime().smallerThanOrEquals(time)) {
@@ -139,7 +146,7 @@ public class Simulator implements Ticker {
 			}
 			if (reservation.getArrivalTime() != null
 						&& reservation.getArrivalTime().smallerThanOrEquals(time)) {
-				subscriberEntrance.add(reservation.getCar());
+				subscriberEntrance.add(reservation);
 			} 
 		}
 	}
