@@ -5,7 +5,7 @@ package parkinggarage.model;
 import parkinggarage.util.Time;
 import parkinggarage.util.Settings;
 
-class Reservation {
+public class Reservation {
   private Car car;
   private Time time;
   private Spot spot;
