@@ -65,6 +65,10 @@ public class Spot {
 	public Car clearCar() {
 		Car result = car;
 		car = null;
+		
+		if (this.type == CarType.RESERVATION) {
+			this.type = CarType.UNPLANNED;
+		}
 		return result;
 	}
 	
@@ -101,5 +105,17 @@ public class Spot {
 	 */
 	public boolean isEmpty() {
 		return car == null;
+	}
+	
+	public void reserve() {
+		if (this.type == CarType.UNPLANNED) {
+			this.type = CarType.RESERVATION;
+		}
+	}
+
+	public void freeReservation() {
+		if (this.type == CarType.RESERVATION) {
+			this.type = CarType.UNPLANNED;
+		}
 	}
 }

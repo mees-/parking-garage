@@ -1,5 +1,7 @@
 package parkinggarage.util;
 
+import java.util.Random;
+
 import parkinggarage.model.CarType;
 
 public class Settings {
@@ -22,9 +24,13 @@ public class Settings {
 	private static final int defaultPlaces = 30;
 	private static final int defaultSubscriberSpots = 80;
 	
-	private static final long defaultRandomSeed = 0;
+	private static final Long defaultRandomSeed = null;
 
 	private static final int defaultTickPause = 50;
+
+	private static final int defaultReservationTimeBefore = 15;
+	private static final int defaultReservationTimeAfter = 30;
+	private static final double defaultReservationShowChance = 0.95;
 	
 	/*
 	 * Actual settings
@@ -44,10 +50,15 @@ public class Settings {
 	private int places = defaultPlaces;
 	private int subscriberSpots = defaultSubscriberSpots;
 	
-	private long randomSeed = defaultRandomSeed;
+	private Long randomSeed = defaultRandomSeed;
+	private Random generator;
 
 	private int tickPause = defaultTickPause;
 
+	private int reservationTimeBefore = defaultReservationTimeBefore;
+	private int reservationTimeAfter = defaultReservationTimeAfter;
+	private double reservationShowChance = defaultReservationShowChance;
+	
 	/*
 	 * Methods for modifying the settings
 	 */
@@ -233,14 +244,26 @@ public class Settings {
 	/**
 	 * @return the randomSeed
 	 */
-	public long getRandomSeed() {
+	public Long getRandomSeed() {
 		return randomSeed;
 	}
 	/**
 	 * @param randomSeed the randomSeed to set
 	 */
-	public void setRandomSeed(long randomSeed) {
+	public void setRandomSeed(Long randomSeed) {
 		this.randomSeed = randomSeed;
+	}
+
+	public Random getRandom() {
+		if (generator == null) {
+			if (getRandomSeed() == null) {
+				generator = new Random();
+			} else {
+				generator = new Random(getRandomSeed());
+			}
+		}
+
+		return generator;
 	}
 	
 	public int getTickPause() {
@@ -249,5 +272,35 @@ public class Settings {
 	
 	public void setTickPause(int tickPause) {
 		this.tickPause = tickPause;
+	}
+
+	public int getReservationTimeBefore() {
+		return this.reservationTimeBefore;
+	}
+
+	public void setReservationTimeBefore(int reservationTimeBefore) {
+		this.reservationTimeBefore = reservationTimeBefore;
+	}
+
+	public int getReservationTimeAfter() {
+		return this.reservationTimeAfter;
+	}
+
+	public void setReservationTimeAfter(int reservationTimeAfter) {
+		this.reservationTimeAfter = reservationTimeAfter;
+	}
+
+	/**
+	 * @return the reservationShowChance
+	 */
+	public double getReservationShowChance() {
+		return reservationShowChance;
+	}
+
+	/**
+	 * @param reservationShowChance the reservationShowChance to set
+	 */
+	public void setReservationShowChance(double reservationShowChance) {
+		this.reservationShowChance = reservationShowChance;
 	}
 }

@@ -1,8 +1,6 @@
 package parkinggarage.model;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import parkinggarage.util.Settings;
 import parkinggarage.util.Ticker;
@@ -12,12 +10,12 @@ public class Simulator implements Ticker {
 	private Garage garage;
 	private CarQueue unplannedEntrance = new CarQueue();
 	private CarQueue subscriberEntrance = new CarQueue();
+	private List<Reservation> reservations = new ArrayList<>();
 	private CarQueue payment = new CarQueue();
 	private CarQueue exit = new CarQueue();
 	private Settings settings;
 	
 	private Time time = new Time(0, 0, 0);
-	private Random random = new Random();
 	
 	// this is for collecting stats
 	private Map<CarType, Integer> carsArrivedLastTick = new HashMap<>();
@@ -31,9 +29,7 @@ public class Simulator implements Ticker {
 				settings.getSubscriberSpots()
 				);
 		
-		if (settings.getRandomSeed() != 0) {
-			this.random = new Random(settings.getRandomSeed());
-		}
+		
 	}
 	
 	public Simulator() {
@@ -53,6 +49,7 @@ public class Simulator implements Ticker {
 		time = time.addMinutes(1);
 
 		tickSpots();
+		hanldeReservations();
 		handleEntrances();
 		handleArriving();
 	}
@@ -77,6 +74,7 @@ public class Simulator implements Ticker {
 
 	private void handleEntrances() {
 		// subscribers
+		// TODO: add logic for reservations
 		int subscribersHandled = 0;
 		while (subscribersHandled < settings.getSubscriberEnterSpeed()
 				&& !subscriberEntrance.isEmpty()
@@ -103,14 +101,14 @@ public class Simulator implements Ticker {
 		// subscribers
 		int subscribersArriving = getCarsArriving(CarType.SUBSCRIBER);
 		for (int i = 0; i < subscribersArriving; i++) {
-			subscriberEntrance.add(new Car(CarType.SUBSCRIBER, random));
+			subscriberEntrance.add(new Car(CarType.SUBSCRIBER, settings.getRandom()));
 		}
 		carsArrivedLastTick.put(CarType.SUBSCRIBER, subscribersArriving);
 		
 		// unplanned
 		int unplannedArriving = getCarsArriving(CarType.UNPLANNED);
 		for (int i = 0; i < unplannedArriving; i++) {
-			unplannedEntrance.add(new Car(CarType.UNPLANNED, random));
+			unplannedEntrance.add(new Car(CarType.UNPLANNED, settings.getRandom()));
 		}
 
 		carsArrivedLastTick.put(CarType.UNPLANNED, unplannedArriving);
@@ -120,8 +118,30 @@ public class Simulator implements Ticker {
 		int averageNumberOfCarsPerHour = settings.getCarsArriving(time, type);
 
 		double standardDeviation = averageNumberOfCarsPerHour * 0.3;
-        double numberOfCarsPerHour = averageNumberOfCarsPerHour + random.nextGaussian() * standardDeviation;
+				double numberOfCarsPerHour = averageNumberOfCarsPerHour
+					+ settings.getRandom().nextGaussian() * standardDeviation;
         return (int)Math.round(numberOfCarsPerHour / 60);
+	}
+
+	private void hanldeReservations() {
+		for (Reservation reservation : reservations) {
+			if (reservation.getStartTime().smallerThanOrEquals(time)
+					&& reservation.getSpot() != null) {
+						Spot spot = garage.getFreeSpot(CarType.UNPLANNED);
+						if (spot != null) {
+							reservation.setSpot(spot);
+							spot.reserve();
+						}
+			}
+			if (reservation.getEndTime().smallerThanOrEquals(time)) {
+				reservation.getSpot().freeReservation();
+				reservations.remove(reservation);
+			}
+			if (reservation.getArrivalTime() != null
+						&& reservation.getArrivalTime().smallerThanOrEquals(time)) {
+				subscriberEntrance.add(reservation.getCar());
+			} 
+		}
 	}
 	
 	public String toString() {
@@ -180,13 +200,6 @@ public class Simulator implements Ticker {
 	 */
 	public Time getTime() {
 		return time;
-	}
-
-	/**
-	 * @return the random
-	 */
-	public Random getRandom() {
-		return random;
 	}
 	
 	public int getCarsArrivedLastTick(CarType type) {
