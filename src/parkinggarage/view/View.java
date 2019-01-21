@@ -1,4 +1,4 @@
-package view;
+package parkinggarage.view;
 
 import java.awt.BorderLayout;
 import java.awt.Container;

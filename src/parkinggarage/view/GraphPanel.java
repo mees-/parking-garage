@@ -1,4 +1,4 @@
-package view;
+package parkinggarage.view;
 
 import javax.swing.JPanel;
 

@@ -6,7 +6,7 @@ import java.awt.event.WindowEvent;
 import parkinggarage.model.Simulator;
 import parkinggarage.util.Settings;
 import parkinggarage.util.StatCollector;
-import view.View;
+import parkinggarage.view.View;
 
 public class App {
 

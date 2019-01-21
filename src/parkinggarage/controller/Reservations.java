@@ -1,4 +1,4 @@
-package controller;
+package parkinggarage.controller;
 
 import java.util.HashMap;
 

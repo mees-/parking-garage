@@ -1,4 +1,4 @@
-package view;
+package parkinggarage.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
