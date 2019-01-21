@@ -1,0 +1,247 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<sim-project version="11.50" multi-file="no" uid="simp2b0d67fb8f9f4db1b7418c0a8787d98b">
+  <meta>
+    <name>Project</name>
+    <authors> </authors>
+    <description />
+  </meta>
+  <counters models="1">
+    <entity-names>
+      <counter>
+        <item-type type-id="package" type="UmlPackage" />
+        <value>3</value>
+      </counter>
+      <counter>
+        <item-type type-id="class" type="UmlClass" />
+        <value>1</value>
+      </counter>
+      <counter>
+        <item-type stereotype="enumeration" type-id="enumeration" type="UmlEnumeration" />
+        <value>1</value>
+      </counter>
+    </entity-names>
+    <entity-ids>
+      <counter>
+        <item-type type-id="" type="AbstractElementGroup" />
+        <value>36</value>
+      </counter>
+      <counter>
+        <item-type type-id="package" type="UmlPackage" />
+        <value>4</value>
+      </counter>
+      <counter>
+        <item-type type-id="class" type="UmlClass" />
+        <value>2</value>
+      </counter>
+      <counter>
+        <item-type type-id="enumeration" type="UmlEnumeration" />
+        <value>2</value>
+      </counter>
+      <counter>
+        <item-type type-id="universal-connector" type="UniversalConnector" />
+        <value>2</value>
+      </counter>
+    </entity-ids>
+    <diagrams>
+      <counter>
+        <type>SoftwareIdeasModeler.Core.Diagrams.UmlDiagrams.UmlClassDiagram</type>
+        <value>1</value>
+      </counter>
+    </diagrams>
+    <fields>
+      <counter>
+        <type>SoftwareIdeasModeler.Core.DiagramItems.Fields.AttributeField</type>
+        <value>7</value>
+      </counter>
+      <counter>
+        <type>SoftwareIdeasModeler.Core.DiagramItems.Fields.EnumerationItemField</type>
+        <value>6</value>
+      </counter>
+      <counter>
+        <type>SoftwareIdeasModeler.Core.DiagramItems.Fields.OperationField</type>
+        <value>13</value>
+      </counter>
+    </fields>
+  </counters>
+  <alias-groups />
+  <management uid="md-c724b6fd21834bc3bc8e144eeca8d505" name="" task-id-sequence="0">
+    <persons>
+      <person id="P3728479cd4ee43c29b52c1afec4021b1">
+        <first-name>Brent de</first-name>
+        <last-name>Jong</last-name>
+        <role />
+        <e-mail />
+        <phone-number />
+        <description />
+        <color>#00000000</color>
+      </person>
+    </persons>
+    <teams />
+    <sprints />
+    <projects />
+    <modules />
+    <tasks />
+    <to-dos />
+  </management>
+  <glossary id="glsr-79797edfc391495082047ba653226a48" />
+  <types default="UML">
+    <type-sets>
+      <type-set file="UmlTypes.xml" />
+    </type-sets>
+    <custom-types>
+      <type id="Time" tid="" name="Time" description="" />
+      <type id="Class:di923192094720505885" tid="" name="CarType" description="" class-ref="di923192094720505885" />
+    </custom-types>
+  </types>
+  <items />
+  <models>
+    <model id="pa4bae5c9e6aa409d9a4beb463bffdd14_463753804" name="Model1" namespace="" order-index="1">
+      <meta>
+        <authors>
+          <author> </author>
+        </authors>
+        <description />
+        <creation-date>01/15/2019 15:11:40</creation-date>
+        <change-date>01/01/0001 00:00:00</change-date>
+        <revision-count>0</revision-count>
+        <version />
+      </meta>
+      <abstract-items />
+      <sub-models />
+      <diagram type="uml-class" id="p87e70c0f0bf74fdeba1a528718de027c_682810063" name="ClassDiagram1" order-index="1" uid="" show-id="false" show-name="true" show-parent-name="false" name-style="local-auto-parents" show-stereotypes="true" show-tagged-values="false" show-template-parameters="true" show-fields="true" show-empty-compartments="true" show-special-indicators="false" show-attributes="true" show-attribute-visibility="true" show-operations="true" show-operation-parameters="true" show-operation-visibility="true" show-nullability="true" show-sequence-number="false" show-extension-points="false" show-relationship-texts="true" show-description="false" show-field-description="false" auto-routed-paths="false">
+        <style>
+          <background-color index="1" color="#FFFFFFFF" />
+          <background-color index="2" color="#FFFFFFFF" />
+          <background-type type="solid" />
+        </style>
+        <meta>
+          <authors>
+            <author> </author>
+          </authors>
+          <description />
+          <creation-date>01/15/2019 15:11:40</creation-date>
+          <change-date>01/15/2019 15:16:52</change-date>
+          <revision-count>0</revision-count>
+          <version />
+        </meta>
+        <abstract-items>
+          <item id="di315053011670248339" cid="PKG001" type="package" name="Garage" style-class="" visibility="package" change-tracking-state="added" creator="P3728479cd4ee43c29b52c1afec4021b1" creation-date="01/15/2019 15:12:16">
+            <style class="default" />
+          </item>
+          <item id="di744124121560492709" cid="PKG002" type="package" name="Model" style-class="" visibility="package" change-tracking-state="added" creator="P3728479cd4ee43c29b52c1afec4021b1" creation-date="01/15/2019 15:12:29">
+            <style class="default" />
+          </item>
+          <item id="di507712592380078625" cid="PKG003" type="package" name="Shared" style-class="" visibility="package" change-tracking-state="added" creator="P3728479cd4ee43c29b52c1afec4021b1" creation-date="01/15/2019 15:12:38">
+            <style class="default" />
+          </item>
+          <item id="di788969927600268186" cid="C001" type="class" name="Car" style-class="" visibility="package" change-tracking-state="added" creator="P3728479cd4ee43c29b52c1afec4021b1" creation-date="01/15/2019 15:13:20">
+            <style class="default" />
+            <attributes>
+              <attribute id="a69ed1a736f5b47afb909fe2b1c8b6987568" cid="ELEM001" name="entranceTime" creation-date="01/01/0001 00:00:00" type="Time" type-id="Time" visibility="private">
+                <style class="default" />
+                <source-codes>
+                  <source-code language="ActionScript" uid="scs-c08bca2d-b8b1-489e-ac2e-6982a1e697bf" />
+                </source-codes>
+              </attribute>
+              <attribute id="ad41423d16dc14074bb54bb606fa3394f298" cid="ELEM002" name="exitTime" creation-date="01/01/0001 00:00:00" type="Time" type-id="Time" visibility="private">
+                <style class="default" />
+                <source-codes>
+                  <source-code language="ActionScript" uid="scs-bc56cbf7-235e-45e3-84a8-a52fc203b499" />
+                </source-codes>
+              </attribute>
+              <attribute id="aa02d9480cf364541941e085fc6bbeffc154" cid="ELEM006" name="type" creation-date="01/01/0001 00:00:00" type="CarType" type-id="Class:di923192094720505885" visibility="private">
+                <style class="default" />
+                <source-codes>
+                  <source-code language="ActionScript" uid="scs-d43e668c-e976-45ab-a61b-fcb3eb7a81b5" />
+                </source-codes>
+              </attribute>
+            </attributes>
+            <operations>
+              <operation id="o49d509744d464ff5a2359f688652bb29318" cid="ELEM007" name="getRandomStayTime" creation-date="01/01/0001 00:00:00" type="Time" type-id="Time" visibility="private" static="true">
+                <style class="default" />
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="ob460ade30fc14fd2a12cfbef0b407542657" cid="ELEM008" name="getEntranceTime" creation-date="01/01/0001 00:00:00" type="Time" type-id="Time" visibility="public">
+                <style class="default" />
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="o43bd9ec92ac843108d0b1680dd6990be917" cid="ELEM009" name="setEntranceTime" creation-date="01/01/0001 00:00:00" type="" type-id="" visibility="public">
+                <style class="default" />
+                <parameters>
+                  <parameter id="pc66a16853afc4ffeb96bbef45e89112e" name="entranceTime" type="Time" type-id="Time" />
+                </parameters>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="of5d19053cbb64fefb351270d8e8184b7425" cid="ELEM010" name="getExitTime" creation-date="01/01/0001 00:00:00" type="Time" type-id="Time" visibility="public">
+                <style class="default" />
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="o063a5500aa75422b8b9d562d32c3ed00300" cid="ELEM011" name="setExitTime" creation-date="01/01/0001 00:00:00" type="" type-id="" visibility="public">
+                <style class="default" />
+                <parameters>
+                  <parameter id="p42c5cdd3720c4911b323abdf38e97473" name="exitTime" type="Time" type-id="Time" />
+                </parameters>
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+              <operation id="o94a192f67bd84e7ea5ac86c8eae7d7af612" cid="ELEM012" name="getType" creation-date="01/01/0001 00:00:00" type="CarType" type-id="Class:di923192094720505885" visibility="public">
+                <style class="default" />
+                <source-codes>
+                  <source-code language="ActionScript" />
+                </source-codes>
+              </operation>
+            </operations>
+            <source-codes>
+              <source-code language="ActionScript" />
+            </source-codes>
+          </item>
+          <item id="di923192094720505885" cid="E001" type="enumeration" name="CarType" style-class="" visibility="package" change-tracking-state="added" creator="P3728479cd4ee43c29b52c1afec4021b1" creation-date="01/15/2019 15:16:51">
+            <stereotypes>
+              <stereotype name="enumeration" />
+            </stereotypes>
+            <style class="default" />
+            <enumeration-items>
+              <enumeration-item id="a3af74cef601d4762a3c74a113c6b896218" cid="ELEM003" name="SUBSCRIBER" creation-date="01/01/0001 00:00:00">
+                <style class="default" />
+              </enumeration-item>
+              <enumeration-item id="a2c59c3ead1cf45459a971489f2390303636" cid="ELEM004" name="RESERVATION" creation-date="01/01/0001 00:00:00">
+                <style class="default" />
+              </enumeration-item>
+              <enumeration-item id="aa51055e76ae64c5fb97f50f9d549371b920" cid="ELEM005" name="UNPLANNED" creation-date="01/01/0001 00:00:00">
+                <style class="default" />
+              </enumeration-item>
+            </enumeration-items>
+          </item>
+        </abstract-items>
+        <layer id="2f5d80c1370d4000a76bcae49be51709" name="Default" visible="true" enabled="true" locked="false">
+          <item id="di315053011670248339" iid="a5a98b27c7424ff78e1cc0c0be74e414" creation-date="01/15/2019 15:12:16" order-index="0" type="entity">
+            <layout ax="65" ay="103" awidth="300" aheight="200" x="65" y="103" width="300" height="200" />
+          </item>
+          <item id="di744124121560492709" iid="78af1711155c4b3c8552694a7c0dd1cf" creation-date="01/15/2019 15:12:29" order-index="1" type="entity">
+            <layout ax="65" ay="370" awidth="300" aheight="200" x="65" y="370" width="300" height="200" />
+          </item>
+          <item id="di507712592380078625" iid="46060192b3d247f0ac4e0780c1db697d" creation-date="01/15/2019 15:12:38" order-index="2" type="entity">
+            <layout ax="65" ay="637" awidth="300" aheight="200" x="65" y="637" width="300" height="200" />
+          </item>
+          <item id="di788969927600268186" iid="bc32454f5ab847d995b4f49fe6fb419d" creation-date="01/15/2019 15:13:20" order-index="3" type="entity">
+            <layout ax="419" ay="143" awidth="282" aheight="200" x="419" y="143" width="282" height="200" />
+            <class />
+          </item>
+          <item id="di923192094720505885" iid="7fe17f63d6eb4493b84c4e5e294a31be" creation-date="01/15/2019 15:16:51" order-index="4" type="entity">
+            <layout ax="445" ay="570" awidth="140" aheight="160" x="445" y="570" width="140" height="160" />
+            <enumeration />
+          </item>
+        </layer>
+      </diagram>
+    </model>
+  </models>
+</sim-project>
