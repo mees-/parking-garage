@@ -7,7 +7,7 @@ import parkinggarage.model.ReservationCar;
 import parkinggarage.util.Settings;
 import parkinggarage.util.Time;
 
-public class Reservations {
+/*public class Reservations {
 	
 	//Hashmap voor alle reservations reservationNumber | Reservation
 	private HashMap<Integer,ReservationCar> reservations = new HashMap<>();
@@ -176,4 +176,4 @@ public class Reservations {
 		return result;
 	}
 	
-}
+}*/

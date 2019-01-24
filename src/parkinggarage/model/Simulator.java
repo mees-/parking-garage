@@ -210,6 +210,6 @@ public class Simulator implements Ticker {
 	}
 	
 	public int getCarsArrivedLastTick(CarType type) {
-		return carsArrivedLastTick.get(type);
+		return 0; //carsArrivedLastTick.get(type);
 	}
 }
