@@ -10,6 +10,15 @@ public class Time {
 		this.day = day;
 		this.hour = hour;
 		this.minute = minute;
+		
+		while (this.minute >= 60) {
+			this.hour += 1;
+			this.minute -= 60;
+		}
+		while (this.hour >= 24) {
+			this.day += 1;
+			this.hour -= 24;
+		}
 	}
 	
 	/**

@@ -131,6 +131,14 @@ public class Simulator implements Ticker {
 	}
 
 	private void hanldeReservations() {
+		
+		// generate some reservations
+		if (settings.getRandom().nextDouble() > 0.9) {
+			int totalMinutesIn5Days = 5 * 24 * 60;
+			int reservationTimeInMinutes = (int) settings.getRandom().nextDouble() * totalMinutesIn5Days;
+			Time reservationTime = time.add((new Time(1, 0, 0)).addMinutes(reservationTimeInMinutes));
+			this.reservations.add(new ReservationCar(reservationTime, settings));
+		}
 		for (ReservationCar reservation : reservations) {
 			if (reservation.getStartTime().smallerThanOrEquals(time)
 					&& reservation.getSpot() == null) {
