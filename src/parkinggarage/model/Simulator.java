@@ -123,11 +123,15 @@ public class Simulator implements Ticker {
 	
 	private int getCarsArriving(CarType type) {
 		int averageNumberOfCarsPerHour = settings.getCarsArriving(time, type);
+		if (type == CarType.SUBSCRIBER) {
+			double factor = (double) garage.getNumberOfFreeSpots(CarType.SUBSCRIBER) / settings.getSubscriberSpots() * 5;
+			averageNumberOfCarsPerHour = (int) Math.round(averageNumberOfCarsPerHour * factor);
+		}
 
 		double standardDeviation = averageNumberOfCarsPerHour * 0.3;
-				double numberOfCarsPerHour = averageNumberOfCarsPerHour
-					+ settings.getRandom().nextGaussian() * standardDeviation;
-        return (int)Math.round(numberOfCarsPerHour / 60);
+		double numberOfCarsPerHour = averageNumberOfCarsPerHour
+			+ settings.getRandom().nextGaussian() * standardDeviation;
+		return (int)Math.round(numberOfCarsPerHour / 60);
 	}
 
 	private void hanldeReservations() {
