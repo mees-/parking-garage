@@ -51,7 +51,7 @@ public class Spot {
 		if (this.car == null) {
 			if (this.type != newCar.getType()) {
 				throw new IllegalArgumentException(
-						"Cannot assign car with type " + car.getType().toString() +
+						"Cannot assign car with type " + newCar.getType().toString() +
 							" to spot with type " + this.type.toString()
 						);
 			} else {
