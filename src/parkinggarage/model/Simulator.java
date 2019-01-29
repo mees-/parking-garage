@@ -143,6 +143,8 @@ public class Simulator implements Ticker {
 			Time reservationTime = time.add((new Time(1, 0, 0)).addMinutes(reservationTimeInMinutes));
 			this.reservations.add(new ReservationCar(reservationTime, settings));
 		}
+
+		carsArrivedLastTick.put(CarType.RESERVATION, 0);
 		for (ReservationCar reservation : reservations) {
 			if (reservation.getStartTime().smallerThanOrEquals(time)
 					&& reservation.getSpot() == null) {
@@ -159,6 +161,7 @@ public class Simulator implements Ticker {
 			if (reservation.getArrivalTime() != null
 						&& reservation.getArrivalTime().smallerThanOrEquals(time)) {
 				subscriberEntrance.add(reservation);
+				carsArrivedLastTick.put(CarType.RESERVATION, carsArrivedLastTick.get(CarType.RESERVATION) + 1);
 			} 
 		}
 	}
@@ -222,6 +225,6 @@ public class Simulator implements Ticker {
 	}
 	
 	public int getCarsArrivedLastTick(CarType type) {
-		return 0; //carsArrivedLastTick.get(type);
+		return carsArrivedLastTick.get(type);
 	}
 }
