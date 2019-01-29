@@ -8,17 +8,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-import jdk.management.resource.internal.TotalResourceContext;
 import parkinggarage.model.CarType;
 import parkinggarage.model.Spot;
-import simulation.Location;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.PaintEvent;
 
@@ -32,6 +26,7 @@ public class View extends Composite {
 	private Label waitingCars;
 	private Label freeSpotsText;
 	private Label freeSpots;
+	private Label dayTime;
 	
 	Canvas carsCanvas;
 
@@ -50,9 +45,6 @@ public class View extends Composite {
 		
 		TabFolder tabFolder = new TabFolder(this, SWT.NONE);
 		tabFolder.setBounds(0, 0, 800, 600);
-		
-		TabItem tbtmGarage = new TabItem(tabFolder, SWT.NONE);
-		tbtmGarage.setText("Home");
 		
 		TabItem tbtmGarage_1 = new TabItem(tabFolder, SWT.NONE);
 		tbtmGarage_1.setText("Garage");
@@ -76,11 +68,11 @@ public class View extends Composite {
 		
 		freeSpotsText = new Label(composite, SWT.NONE);
 		freeSpotsText.setText("Aantal vrije plekken:");
-		freeSpotsText.setBounds(588, 10, 112, 15);
+		freeSpotsText.setBounds(233, 10, 112, 15);
 		
 		freeSpots = new Label(composite, SWT.BORDER);
 		freeSpots.setText("587");
-		freeSpots.setBounds(706, 10, 76, 15);
+		freeSpots.setBounds(351, 10, 76, 15);
 		
 		Label waitingCarsText = new Label(composite, SWT.NONE);
 		waitingCarsText.setBounds(10, 10, 104, 15);
@@ -107,6 +99,11 @@ public class View extends Composite {
 		lblFreeSpots.setBackground(SWTResourceManager.getColor(50, 205, 50));
 		lblFreeSpots.setBounds(230, 538, 104, 24);
 		
+		dayTime = new Label(composite, SWT.NONE);
+		dayTime.setBounds(637, 10, 145, 15);
+		dayTime.setAlignment(SWT.RIGHT);
+		dayTime.setText("Monday 7:35");
+		
 		TabItem tbtmAgenda = new TabItem(tabFolder, SWT.NONE);
 		tbtmAgenda.setText("Agenda");
 		
@@ -124,13 +121,34 @@ public class View extends Composite {
 		this.spots = spots;
 		if(isDisposed())
 			return;
+		carsCanvas.redraw();
+	}
+	
+	public void UpdateParkingInfo(int freeSpots, int carsWaiting) {
+		if(isDisposed())
+			return;
+		this.freeSpots.setText(freeSpots + " spots");
+		this.freeSpots.redraw();
+		this.waitingCars.setText(carsWaiting + " cars");
+		this.waitingCars.redraw();
+	}
+	
+	public void UpdateDayTimeInfo(String dayTimeInfo) {
+		
+	}
+	
+	private void redrawGarage(PaintEvent arg) {
+		Device device = Display.getCurrent ();
+		
+		if(isDisposed())
+			return;
 		Rectangle rect = getBounds();
 		float scalex = ((float)rect.width) / (( floors - 1) * rows * (25 + rows / 2 * 3) + rows * (20 + rows / 2 * 3) + ((rows + 1) % 2) * 3 + 10 + floors * 3);
-		float scaley = ((float)rect.height) / (places * 10 + 20);
+		float scaley = 1;//((float)rect.height) / (places * 10 + 10);
 		PaletteData palette = new PaletteData(0xFF , 0xFF00 , 0xFF0000);
 		ImageData imageData = new ImageData(rect.width, rect.height, 24, palette);
 		int width = (int) Math.floor(19 * scalex);
-        int height = (int) Math.floor(9 * scaley);
+        int height = rect.height / places - 1;
 		for(int floor = 0; floor < floors; floor++) {
             for(int row = 0; row < rows; row++)  {
                 for(int place = 0; place < places; place++) {
@@ -144,8 +162,7 @@ public class View extends Composite {
                     int color = car == null ? 0x32cd32 : car.getType() == CarType.UNPLANNED ? 0xff0000 : 0x0000ff;
                     
                     int x = (int) Math.floor((floor * rows * (25 + rows / 2 * 3) + row * (20 + rows / 2 * 3) + ((row + 1) % 2) * 3 + floor * 3) * scalex) + 10;
-                    //int x = floor * 260 + (1 + (int)Math.floor(row * 0.5)) * 75 + (row % 2) * 20;
-                    int y = (int) Math.floor((place * 10 + 10) * scaley);
+                    int y = place *  height + place;
                     
                     for (int loopx = 0; loopx < width; loopx++){
                     	for(int loopy = 0; loopy < height; loopy++){
@@ -157,28 +174,8 @@ public class View extends Composite {
         }
 		if(img != null)
 		img.dispose();
-		img = new Image(Display.getCurrent (), imageData);
-		carsCanvas.redraw();
-	}
-	
-	public void UpdateParkingInfo(int freeSpots, int todo) {
-		if(isDisposed())
-			return;
-		this.freeSpots.setText(freeSpots + " cars");
-		this.freeSpots.redraw();
-	}
-	
-	private void redrawGarage(PaintEvent arg) {
-		Device device = Display.getCurrent ();
+		img = new Image(device, imageData);
+		
 		arg.gc.drawImage(img, 0, 0);
-    }
-	private void drawPlace(Location location, Color color) {
-		//carsCanvas.listener
-        //ca.setColor(color);
-        /*graphics.fillRect(
-                location.getFloor() * 260 + (1 + (int)Math.floor(location.getRow() * 0.5)) * 75 + (location.getRow() % 2) * 20,
-                60 + location.getPlace() * 10,
-                20 - 1,
-                10 - 1); // TODO use dynamic size or constants */
     }
 }
