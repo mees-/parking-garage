@@ -32,6 +32,8 @@ public class Settings {
 	private static final int defaultReservationTimeAfter = 30;
 	private static final double defaultReservationShowChance = 0.95;
 	
+	private static final int defaultEightyPctLeavingMark = 20;
+	
 	/*
 	 * Actual settings
 	 */
@@ -58,6 +60,8 @@ public class Settings {
 	private int reservationTimeBefore = defaultReservationTimeBefore;
 	private int reservationTimeAfter = defaultReservationTimeAfter;
 	private double reservationShowChance = defaultReservationShowChance;
+	
+	private int eightyPctLeavingMark = defaultEightyPctLeavingMark;
 	
 	/*
 	 * Methods for modifying the settings
@@ -302,5 +306,20 @@ public class Settings {
 	 */
 	public void setReservationShowChance(double reservationShowChance) {
 		this.reservationShowChance = reservationShowChance;
+	}
+	
+	/**
+	 * This method uses the mathematical function
+	 * 		100x / (x + a/4)
+	 * where a is eightyPctLeavingMark
+	 * this ensures that at eightyPctLeavingMark cars in the queue there will be an 80% chance new cars won't join
+	 * for a little more insight try playing with the function here: https://www.desmos.com/calculator/1pefa3mslm
+	 */
+	public double getLeavingChance(int carsInQueue) {
+		return ((100 * carsInQueue) / (carsInQueue + eightyPctLeavingMark/4.0));
+	}
+	
+	public void setEightPctLeavingMark(int eightyPctLeavingMark) {
+		this.eightyPctLeavingMark = eightyPctLeavingMark;
 	}
 }
