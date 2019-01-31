@@ -111,7 +111,7 @@ public class Simulator implements Ticker {
 		carsLeftQueueLastTick.put(CarType.SUBSCRIBER, 0);
 		int subscribersArriving = getCarsArriving(CarType.SUBSCRIBER);
 		for (int i = 0; i < subscribersArriving; i++) {
-			if (settings.getLeavingChance(subscriberEntrance.size()) >= settings.getRandom().nextDouble()) {
+			if (settings.getLeavingChance(subscriberEntrance.size()) < settings.getRandom().nextDouble()) {
 				subscriberEntrance.add(new Car(CarType.SUBSCRIBER, settings.getRandom()));
 			} else {
 				carsLeftQueueLastTick.put(CarType.SUBSCRIBER, carsLeftQueueLastTick.get(CarType.SUBSCRIBER) + 1);
@@ -123,7 +123,7 @@ public class Simulator implements Ticker {
 		carsLeftQueueLastTick.put(CarType.UNPLANNED, 0);
 		int unplannedArriving = getCarsArriving(CarType.UNPLANNED);
 		for (int i = 0; i < unplannedArriving; i++) {
-			if (settings.getLeavingChance(unplannedEntrance.size()) >= settings.getRandom().nextDouble()) {
+			if (settings.getLeavingChance(unplannedEntrance.size()) < settings.getRandom().nextDouble()) {
 				unplannedEntrance.add(new Car(CarType.UNPLANNED, settings.getRandom()));
 			} else {
 				carsLeftQueueLastTick.put(CarType.UNPLANNED, carsLeftQueueLastTick.get(CarType.UNPLANNED) + 1);
