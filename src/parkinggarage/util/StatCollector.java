@@ -10,16 +10,16 @@ import parkinggarage.model.Spot;
 public class StatCollector implements Ticker {
 	private static final int defaultHistoryLength = 1000;
 	
-	private static int getAverage(List<Integer> list) {
+	private static double getAverage(List<Integer> list) {
 		if (list.size() == 0) {
 			return 0;
 		}
-		long total = 0;
+		double total = 0;
 		for (Integer i : list) {
 			total += i;
 		}
 		
-		return (int) (total / list.size());
+		return (total / list.size());
 	}
 	
 	public static List<Integer> getReducedList(List<Integer> list, int amount) {
@@ -43,6 +43,7 @@ public class StatCollector implements Ticker {
 	private List<Integer> exit = new ArrayList<>();
 	
 	public Map<CarType, List<Integer>> arrivingCars = new HashMap<>();
+	public Map<CarType, List<Integer>> queueLeavingCars = new HashMap<>();
 	
 	private Simulator sim;
 	
@@ -57,6 +58,7 @@ public class StatCollector implements Ticker {
 		}
 		for (CarType type : CarType.values()) {
 			arrivingCars.put(type, new ArrayList<>());
+			queueLeavingCars.put(type, new ArrayList<>());
 		}
 	}
 	
@@ -88,6 +90,10 @@ public class StatCollector implements Ticker {
 		
 		for (Map.Entry<CarType, List<Integer>> entry : arrivingCars.entrySet()) {
 			entry.getValue().add(sim.getCarsArrivedLastTick(entry.getKey()));
+		}
+		
+		for (Map.Entry<CarType, List<Integer>> entry : queueLeavingCars.entrySet()) {
+			entry.getValue().add(sim.getCarsLeftQueueLastTick(entry.getKey()));
 		}
 		
 		// check all lists to see if they exceed max size
@@ -163,7 +169,7 @@ public class StatCollector implements Ticker {
 	}
 	
 	// statistical stuff
-	public int getAvgSpotsFree(CarType type) {
+	public double getAvgSpotsFree(CarType type) {
 		return getAverage(getSpotsFree(type));
 	}
 	
@@ -175,7 +181,7 @@ public class StatCollector implements Ticker {
 		return total;
 	}
 	
-	public int getAvgSpotsOccupied(CarType type) {
+	public double getAvgSpotsOccupied(CarType type) {
 		return getAverage(getSpotsOccupied(type));
 	}
 	
@@ -187,7 +193,7 @@ public class StatCollector implements Ticker {
 		return total;
 	}
 	
-	public int getAvgEntrance(int index) {
+	public double getAvgEntrance(int index) {
 		return getAverage(entrances.get(index));
 	}
 	
@@ -199,32 +205,38 @@ public class StatCollector implements Ticker {
 		return total;
 	}
 	
-	public int getAvgPayment() {
+	public double getAvgPayment() {
 		return getAverage(payment);
 	}
 	
-	public int getAvgExit() {
+	public double getAvgExit() {
 		return getAverage(exit);
 	}
 	
-	public int getAvgArriving(CarType type) {
+	public double getAvgArriving(CarType type) {
 		return getAverage(arrivingCars.get(type));
 	}
 	
-	public int getAvgArrivingPerTime(CarType type, int mins) {
+	public double getAvgArrivingPerTime(CarType type, int mins) {
 		return getAverage(getReducedList(arrivingCars.get(type), mins));
+	}
+	
+	public double getAvgLeavingQueue(CarType type) {
+		return getAverage(queueLeavingCars.get(type));
 	}
 	
 	public String toString() {
 		return "Stats: " +
 				"avg spots free: " + getAvgSpotsFree() + "\n" +
 				"avg sub spots free: " + getAvgSpotsFree(CarType.SUBSCRIBER) + "\n" +
-				"avg unpl spots free: " + getAvgSpotsFree(CarType.UNPLANNED) + "\n" +
+				"avg upl spots free: " + getAvgSpotsFree(CarType.UNPLANNED) + "\n" +
 				"avg sub entrance: " + getAvgEntrance(0) + "\n" +
-				"avg unpl entrance: " + getAvgEntrance(1) + "\n" +
+				"avg upl entrance: " + getAvgEntrance(1) + "\n" +
 				"avg payment: " + getAvgPayment() + "\n" +
 				"avg exit: " + getAvgExit() + "\n" +
 				"avg sub arriving: " + getAvgArrivingPerTime(CarType.SUBSCRIBER, 60) + "\n" +
-				"avg unpl arriving: " + getAvgArrivingPerTime(CarType.UNPLANNED, 60) + "\n";
+				"avg upl arriving: " + getAvgArrivingPerTime(CarType.UNPLANNED, 60) + "\n" +
+				"avg sub leaving queue: " + getAvgLeavingQueue(CarType.SUBSCRIBER) + "\n" +
+				"avg unp leaving queue: " + getAvgLeavingQueue(CarType.UNPLANNED);
 	}
 }

@@ -19,6 +19,7 @@ public class Simulator implements Ticker {
 	
 	// this is for collecting stats
 	private Map<CarType, Integer> carsArrivedLastTick = new HashMap<>();
+	private Map<CarType, Integer> carsLeftQueueLastTick = new HashMap<>();
 	
 	public Simulator(Settings settings) {
 		this.settings = settings;
@@ -29,7 +30,8 @@ public class Simulator implements Ticker {
 				settings.getSubscriberSpots()
 				);
 		
-		
+		// set this to 0 once because reservation cars never leave the queue
+		carsLeftQueueLastTick.put(CarType.RESERVATION, 0);
 	}
 	
 	public Simulator() {
@@ -106,16 +108,26 @@ public class Simulator implements Ticker {
 
 	private void handleArriving() {
 		// subscribers
+		carsLeftQueueLastTick.put(CarType.SUBSCRIBER, 0);
 		int subscribersArriving = getCarsArriving(CarType.SUBSCRIBER);
 		for (int i = 0; i < subscribersArriving; i++) {
-			subscriberEntrance.add(new Car(CarType.SUBSCRIBER, settings.getRandom()));
+			if (settings.getLeavingChance(subscriberEntrance.size()) < settings.getRandom().nextDouble()) {
+				subscriberEntrance.add(new Car(CarType.SUBSCRIBER, settings.getRandom()));
+			} else {
+				carsLeftQueueLastTick.put(CarType.SUBSCRIBER, carsLeftQueueLastTick.get(CarType.SUBSCRIBER) + 1);
+			}
 		}
 		carsArrivedLastTick.put(CarType.SUBSCRIBER, subscribersArriving);
 		
 		// unplanned
+		carsLeftQueueLastTick.put(CarType.UNPLANNED, 0);
 		int unplannedArriving = getCarsArriving(CarType.UNPLANNED);
 		for (int i = 0; i < unplannedArriving; i++) {
-			unplannedEntrance.add(new Car(CarType.UNPLANNED, settings.getRandom()));
+			if (settings.getLeavingChance(unplannedEntrance.size()) < settings.getRandom().nextDouble()) {
+				unplannedEntrance.add(new Car(CarType.UNPLANNED, settings.getRandom()));
+			} else {
+				carsLeftQueueLastTick.put(CarType.UNPLANNED, carsLeftQueueLastTick.get(CarType.UNPLANNED) + 1);
+			}
 		}
 
 		carsArrivedLastTick.put(CarType.UNPLANNED, unplannedArriving);
@@ -226,5 +238,9 @@ public class Simulator implements Ticker {
 	
 	public int getCarsArrivedLastTick(CarType type) {
 		return carsArrivedLastTick.get(type);
+	}
+	
+	public int getCarsLeftQueueLastTick(CarType type) {
+		return carsLeftQueueLastTick.get(type);
 	}
 }

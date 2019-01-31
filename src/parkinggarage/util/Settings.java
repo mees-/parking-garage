@@ -32,6 +32,9 @@ public class Settings {
 	private static final int defaultReservationTimeAfter = 30;
 	private static final double defaultReservationShowChance = 0.95;
 	
+	private static final double defaultQueueLeaveThreshold = 5;
+	private static final double defaultQueueLeaveScaling = 8;
+	
 	/*
 	 * Actual settings
 	 */
@@ -58,6 +61,15 @@ public class Settings {
 	private int reservationTimeBefore = defaultReservationTimeBefore;
 	private int reservationTimeAfter = defaultReservationTimeAfter;
 	private double reservationShowChance = defaultReservationShowChance;
+	
+	/*
+	 * the next to are relating to people leaving the queue (not joining)
+	 * it uses the function y = a(x-p)
+	 * where queueLeaveScaling is a and queueLeaveThreshold is p
+	 * this is essentially a straight line shifted to the right by p with gradient a
+	 */
+	private double queueLeaveThreshold = defaultQueueLeaveThreshold; 	// this is when people will start possibly not joining the queue (in number of cars)
+	private double queueLeaveScaling = defaultQueueLeaveScaling;		// this is the gradient of the line which determines the chance of leaving
 	
 	/*
 	 * Methods for modifying the settings
@@ -302,5 +314,42 @@ public class Settings {
 	 */
 	public void setReservationShowChance(double reservationShowChance) {
 		this.reservationShowChance = reservationShowChance;
+	}
+	
+	/**
+	 * @param carsInQueue the amount of cars in the queue
+	 * @return the chance a car will not join the queue (leave it) as a double from 0.0 to 1.0
+	 */
+	public double getLeavingChance(int carsInQueue) {
+		double x = carsInQueue;
+		double y = queueLeaveScaling * (x - queueLeaveThreshold) / 100; // the division by 100 is to scale it down from 0-100 to 0-1.0
+		if (y > 1.0) {
+			y = 1.0;
+		}
+		return y;
+	}
+	/**
+	 * @return the queueLeaveThreshold
+	 */
+	public double getQueueLeaveThreshold() {
+		return queueLeaveThreshold;
+	}
+	/**
+	 * @param queueLeaveThreshold the queueLeaveThreshold to set
+	 */
+	public void setQueueLeaveThreshold(double queueLeaveThreshold) {
+		this.queueLeaveThreshold = queueLeaveThreshold;
+	}
+	/**
+	 * @return the queueLeaveScaling
+	 */
+	public double getQueueLeaveScaling() {
+		return queueLeaveScaling;
+	}
+	/**
+	 * @param queueLeaveScaling the queueLeaveScaling to set
+	 */
+	public void setQueueLeaveScaling(double queueLeaveScaling) {
+		this.queueLeaveScaling = queueLeaveScaling;
 	}
 }
