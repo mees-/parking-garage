@@ -123,11 +123,6 @@ public class View extends Composite {
 		chart.getAxisSet().getXAxis(0).getTitle().setText("Data Points");
 		chart.getAxisSet().getYAxis(0).getTitle().setText("Amplitude");
 	}
-
-	@Override
-	protected void checkSubclass() {
-		// Disable the check that prevents subclassing of SWT components
-	}
 	
 	public void updateView(parkinggarage.model.Spot[] spots) {
 		this.spots = spots;
@@ -150,7 +145,6 @@ public class View extends Composite {
 	}
 	
 	public void updateTestGraph(double[] data, double max) {
-
 		chart.getAxisSet().getXAxis(0).setRange(new Range(0, data.length));
 		chart.getAxisSet().getYAxis(0).setRange(new Range(0, max));
 		ILineSeries lineSeries = (ILineSeries)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");

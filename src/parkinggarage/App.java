@@ -36,7 +36,7 @@ public class App {
 				stats.tick();
 			}
 			view.updateView(sim.getGarage().getSpots());
-			view.UpdateParkingInfo(sim.getGarage().getNumberOfFreeSpots(), 0);
+			view.updateParkingInfo(sim.getGarage().getNumberOfFreeSpots(), 0);
 			display.update();
 			try {
 	            Thread.sleep(settings.getTickPause());
