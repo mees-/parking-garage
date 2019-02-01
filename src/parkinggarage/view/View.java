@@ -136,7 +136,7 @@ public class View extends Composite {
 		carsCanvas.redraw();
 	}
 	
-	public void UpdateParkingInfo(int freeSpots, int carsWaiting) {
+	public void updateParkingInfo(int freeSpots, int carsWaiting) {
 		if(isDisposed())
 			return;
 		this.freeSpots.setText(freeSpots + " spots");
@@ -145,11 +145,11 @@ public class View extends Composite {
 		this.waitingCars.redraw();
 	}
 	
-	public void UpdateDayTimeInfo(String dayTimeInfo) {
+	public void updateDayTimeInfo(String dayTimeInfo) {
 		
 	}
 	
-	public void UpdateTestGraph(double[] data, double max) {
+	public void updateTestGraph(double[] data, double max) {
 
 		chart.getAxisSet().getXAxis(0).setRange(new Range(0, data.length));
 		chart.getAxisSet().getYAxis(0).setRange(new Range(0, max));
