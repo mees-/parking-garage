@@ -10,6 +10,8 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.swtchart.*;
+import org.swtchart.ISeries.SeriesType;
 
 import parkinggarage.model.CarType;
 import parkinggarage.model.Spot;
@@ -27,6 +29,8 @@ public class View extends Composite {
 	private Label freeSpotsText;
 	private Label freeSpots;
 	private Label dayTime;
+	
+	private Chart chart;
 	
 	Canvas carsCanvas;
 
@@ -109,7 +113,15 @@ public class View extends Composite {
 		
 		TabItem tbtmGraphs = new TabItem(tabFolder, SWT.NONE);
 		tbtmGraphs.setText("Graphs");
-
+		
+		Composite composite_1 = new Composite(tabFolder, SWT.NONE);
+		tbtmGraphs.setControl(composite_1);
+		
+		chart = new Chart(composite_1, SWT.NONE);
+		chart.setBounds(10, 10, 772, 552);
+		chart.getTitle().setText("Line Chart");
+		chart.getAxisSet().getXAxis(0).getTitle().setText("Data Points");
+		chart.getAxisSet().getYAxis(0).getTitle().setText("Amplitude");
 	}
 
 	@Override
@@ -137,6 +149,15 @@ public class View extends Composite {
 		
 	}
 	
+	public void UpdateTestGraph(double[] data, double max) {
+
+		chart.getAxisSet().getXAxis(0).setRange(new Range(0, data.length));
+		chart.getAxisSet().getYAxis(0).setRange(new Range(0, max));
+		ILineSeries lineSeries = (ILineSeries)chart.getSeriesSet().createSeries(SeriesType.LINE, "line series");
+		lineSeries.setYSeries(data);
+		chart.getAxisSet().adjustRange();
+	}
+	
 	private void redrawGarage(PaintEvent arg) {
 		Device device = Display.getCurrent ();
 		
@@ -148,7 +169,7 @@ public class View extends Composite {
 		PaletteData palette = new PaletteData(0xFF , 0xFF00 , 0xFF0000);
 		ImageData imageData = new ImageData(rect.width, rect.height, 24, palette);
 		int width = (int) Math.floor(19 * scalex);
-        int height = rect.height / places - 1;
+        int height = rect.height / places - 5;
 		for(int floor = 0; floor < floors; floor++) {
             for(int row = 0; row < rows; row++)  {
                 for(int place = 0; place < places; place++) {
@@ -161,12 +182,12 @@ public class View extends Composite {
                     parkinggarage.model.Car car = spot == null ? null : spot.getCar();
                     int color = car == null ? 0x32cd32 : car.getType() == CarType.UNPLANNED ? 0xff0000 : 0x0000ff;
                     
-                    int x = (int) Math.floor((floor * rows * (25 + rows / 2 * 3) + row * (20 + rows / 2 * 3) + ((row + 1) % 2) * 3 + floor * 3) * scalex) + 10;
+                    int x = (int) Math.floor((floor * rows * (25 + rows / 2 * 3) + row * (20 + rows / 2 * 3) + ((row + 1) % 2) * 3 + floor * 3) * scalex) + 7;
                     int y = place *  height + place;
                     
                     for (int loopx = 0; loopx < width; loopx++){
                     	for(int loopy = 0; loopy < height; loopy++){
-                    		imageData.setPixel(x + loopx, y + loopy, color);
+                    		imageData.setPixel(x + loopx, y + loopy + 9, color);
                     	}
                    	}
                  }
