@@ -71,7 +71,7 @@ public class StatCollector implements Ticker {
 			entry.getValue().add(
 					sim
 						.getGarage()
-						.getFilterdSpots(
+						.getFilteredSpots(
 								Spot
 									.isFree
 									.and(

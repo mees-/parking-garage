@@ -49,7 +49,7 @@ public class Garage {
 
 	public int getNumberOfFreeSpots(CarType type) {
 		int freeSpots = 0;
-		for (Spot spot : getFilterdSpots(Spot.isType.apply(type))) {
+		for (Spot spot : getFilteredSpots(Spot.isType.apply(type))) {
 			if (spot.isEmpty()) {
 				freeSpots++;
 			}
@@ -58,7 +58,7 @@ public class Garage {
 
 	}
 	
-	public ArrayList<Spot> getFilterdSpots(Predicate<Spot> predicate) {
+	public ArrayList<Spot> getFilteredSpots(Predicate<Spot> predicate) {
 		ArrayList<Spot> result = new ArrayList<>();
 		for (Spot spot : spots) {
 			if (predicate.test(spot)) {

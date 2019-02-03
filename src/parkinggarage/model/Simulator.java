@@ -61,7 +61,7 @@ public class Simulator implements Ticker {
 	 */
 	private void tickSpots() {
 		// tick all parking spots
-		for (Spot spot : garage.getFilterdSpots(spot -> spot.getCar() != null)) {
+		for (Spot spot : garage.getFilteredSpots(spot -> spot.getCar() != null)) {
 			if (spot.getCar().getExitTime().smallerThanOrEquals(this.time)) {
 				Car leavingCar = spot.getCar();
 				spot.clearCar();
