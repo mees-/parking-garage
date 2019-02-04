@@ -1,6 +1,10 @@
+/**
+ * @author Mees van Dijk
+ */
 package parkinggarage.model;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.function.Predicate;
 
 public class Garage {
@@ -8,7 +12,9 @@ public class Garage {
 	private int totalSpots;
 	private int subscriberPlaces;
 	
-	Garage(int floors, int rows, int places, int subscriberPlaces) {
+	private Random random;
+	
+	Garage(int floors, int rows, int places, int subscriberPlaces, Random random) {
 		if (subscriberPlaces > floors * rows * places) {
 			throw new IllegalArgumentException("Cannot have more subscribers than there are spots");
 		}
@@ -31,6 +37,8 @@ public class Garage {
 				}
 			}
 		}
+		
+		this.random = random;
 	}
 
 	public Spot[] getSpots() {
@@ -77,19 +85,12 @@ public class Garage {
 	 * @return a free spot or if none are available null
 	 */
 	public Spot getFreeSpot(CarType type) {
-		if(type == CarType.SUBSCRIBER) {
-			for (int i = 0; i < subscriberPlaces; i++) {
-				if(spots[i].isEmpty())
-					return spots[i];
-			}
+		ArrayList<Spot> s = getFilteredSpots(Spot.isFree.and(Spot.isType.apply(type)));
+		if (s.size() > 0) {
+			return s.get(random.nextInt(s.size()));
+		} else {
+			return null;
 		}
-		else {
-			for (int i = subscriberPlaces; i < totalSpots; i++) {
-				if(spots[i].isEmpty())
-					return spots[i];
-			}
-		}
-		return null;
 	}
 
 	/**

@@ -1,3 +1,6 @@
+/**
+ * @author Mees van Dijk
+ */
 package parkinggarage.model;
 
 import parkinggarage.util.Time;
@@ -51,5 +54,10 @@ public class ReservationCar extends Car {
    */
   public Time getArrivalTime() {
     return arrivalTime;
+  }
+  
+  @Override
+  public String toString() {
+	  return super.toString() + " reservationTime: " + time;
   }
 }

@@ -1,6 +1,10 @@
+/**
+ * @author Mees van Dijk
+ */
 package parkinggarage.model;
 
 import java.util.function.*;
+
 
 public class Spot {
 	public static final Function<CarType, Predicate<Spot>> isType = type -> s -> s.getType() == type;
@@ -65,10 +69,6 @@ public class Spot {
 	public Car clearCar() {
 		Car result = car;
 		car = null;
-		
-		if (this.type == CarType.RESERVATION) {
-			this.type = CarType.UNPLANNED;
-		}
 		return result;
 	}
 	
@@ -108,14 +108,18 @@ public class Spot {
 	}
 	
 	public void reserve() {
-		if (this.type == CarType.UNPLANNED) {
-			this.type = CarType.RESERVATION;
+		if (type == CarType.UNPLANNED) {
+			type = CarType.RESERVATION;
+		} else {
+			throw new IllegalStateException("Cannot reserve spot with type: " + type);
 		}
 	}
 
 	public void freeReservation() {
-		if (this.type == CarType.RESERVATION) {
-			this.type = CarType.UNPLANNED;
+		if (type == CarType.RESERVATION) {
+			type = CarType.UNPLANNED;
+		} else {
+			throw new IllegalStateException("Cannot free unreserved spot");
 		}
 	}
 }

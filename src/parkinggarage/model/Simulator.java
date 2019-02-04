@@ -1,3 +1,6 @@
+/**
+ * @author Mees van Dijk
+ */
 package parkinggarage.model;
 
 import java.util.*;
@@ -27,7 +30,8 @@ public class Simulator implements Ticker {
 				settings.getFloors(),
 				settings.getRows(),
 				settings.getPlaces(),
-				settings.getSubscriberSpots()
+				settings.getSubscriberSpots(),
+				settings.getRandom()
 				);
 		
 		// set this to 0 once because reservation cars never leave the queue
@@ -157,7 +161,10 @@ public class Simulator implements Ticker {
 		}
 
 		carsArrivedLastTick.put(CarType.RESERVATION, 0);
-		for (ReservationCar reservation : reservations) {
+		
+		Iterator<ReservationCar> iter = reservations.iterator();
+		while (iter.hasNext()) {
+			ReservationCar reservation = iter.next();
 			if (reservation.getStartTime().smallerThanOrEquals(time)
 					&& reservation.getSpot() == null) {
 						Spot spot = garage.getFreeSpot(CarType.UNPLANNED);
@@ -166,15 +173,17 @@ public class Simulator implements Ticker {
 							reservation.setSpot(spot);
 						}
 			}
-			if (reservation.getEndTime().smallerThanOrEquals(time)) {
+			if (reservation.getEndTime().smallerThan(time)) {
 				reservation.getSpot().freeReservation();
-				reservations.remove(reservation);
+				iter.remove();
 			}
 			if (reservation.getArrivalTime() != null
-						&& reservation.getArrivalTime().smallerThanOrEquals(time)) {
+						&& reservation.getArrivalTime().smallerThanOrEquals(time)
+						&& !subscriberEntrance.contains(reservation)
+						&& reservation.getEntranceTime() == null) {
 				subscriberEntrance.add(reservation);
 				carsArrivedLastTick.put(CarType.RESERVATION, carsArrivedLastTick.get(CarType.RESERVATION) + 1);
-			} 
+			}
 		}
 	}
 	
