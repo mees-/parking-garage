@@ -92,6 +92,7 @@ public class Simulator implements Ticker {
 				newSpot = garage.getFreeSpot(CarType.SUBSCRIBER);
 			}
 			if (newSpot == null) {
+				subscriberEntrance.addFirst(arrivingCar);
 				break;
 			}
 			newSpot.setCar(arrivingCar);
