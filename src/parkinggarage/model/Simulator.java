@@ -30,7 +30,8 @@ public class Simulator implements Ticker {
 				settings.getFloors(),
 				settings.getRows(),
 				settings.getPlaces(),
-				settings.getSubscriberSpots()
+				settings.getSubscriberSpots(),
+				settings.getRandom()
 				);
 		
 		// set this to 0 once because reservation cars never leave the queue
