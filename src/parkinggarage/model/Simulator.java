@@ -143,6 +143,8 @@ public class Simulator implements Ticker {
 			double factor = (double) garage.getNumberOfFreeSpots(CarType.SUBSCRIBER) / settings.getSubscriberSpots() * 5;
 			averageNumberOfCarsPerHour = (int) Math.round(averageNumberOfCarsPerHour * factor);
 		}
+		double agendaModifier = settings.getAgenda().getModifier(time);
+		averageNumberOfCarsPerHour *= agendaModifier;
 
 		double standardDeviation = averageNumberOfCarsPerHour * 0.3;
 		double numberOfCarsPerHour = averageNumberOfCarsPerHour
