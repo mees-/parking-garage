@@ -77,19 +77,11 @@ public class Garage {
 	 * @return a free spot or if none are available null
 	 */
 	public Spot getFreeSpot(CarType type) {
-		if(type == CarType.SUBSCRIBER) {
-			for (int i = 0; i < subscriberPlaces; i++) {
-				if(spots[i].isEmpty())
-					return spots[i];
-			}
+		try {
+			return getFilteredSpots(Spot.isFree.and(Spot.isType.apply(type))).get(0);
+		} catch (IndexOutOfBoundsException e) {
+			return null;
 		}
-		else {
-			for (int i = subscriberPlaces; i < totalSpots; i++) {
-				if(spots[i].isEmpty())
-					return spots[i];
-			}
-		}
-		return null;
 	}
 
 	/**
