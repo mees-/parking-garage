@@ -171,7 +171,9 @@ public class Simulator implements Ticker {
 				reservations.remove(reservation);
 			}
 			if (reservation.getArrivalTime() != null
-						&& reservation.getArrivalTime().smallerThanOrEquals(time)) {
+						&& reservation.getArrivalTime().smallerThanOrEquals(time)
+						&& !subscriberEntrance.contains(reservation)
+						&& reservation.getEntranceTime() == null) {
 				subscriberEntrance.add(reservation);
 				carsArrivedLastTick.put(CarType.RESERVATION, carsArrivedLastTick.get(CarType.RESERVATION) + 1);
 			} 
