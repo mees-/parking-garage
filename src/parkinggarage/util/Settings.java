@@ -37,6 +37,8 @@ public class Settings {
 	
 	private static final double defaultQueueLeaveThreshold = 5;
 	private static final double defaultQueueLeaveScaling = 8;
+
+	private static final Agenda defaultAgenda = WeeklyRepeatingAgenda.getDefault();
 	
 	/*
 	 * Actual settings
@@ -74,6 +76,8 @@ public class Settings {
 	private double queueLeaveThreshold = defaultQueueLeaveThreshold; 	// this is when people will start possibly not joining the queue (in number of cars)
 	private double queueLeaveScaling = defaultQueueLeaveScaling;		// this is the gradient of the line which determines the chance of leaving
 	
+	private Agenda agenda = defaultAgenda;
+
 	/*
 	 * Methods for modifying the settings
 	 */
@@ -354,5 +358,13 @@ public class Settings {
 	 */
 	public void setQueueLeaveScaling(double queueLeaveScaling) {
 		this.queueLeaveScaling = queueLeaveScaling;
+	}
+
+	public Agenda getAgenda() {
+		return this.agenda;
+	}
+
+	public void setAgenda(Agenda agenda) {
+		this.agenda = agenda;
 	}
 }

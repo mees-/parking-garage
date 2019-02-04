@@ -111,6 +111,10 @@ public class Time {
 	public Time substract(Time subject) {
 		return Time.fromMinutes(this.getTotalMinutes() - subject.getTotalMinutes());
 	}
+
+	public Time modulus(Time subject) {
+		return Time.fromMinutes(getTotalMinutes() % subject.getTotalMinutes());
+	}
 	
 	public boolean greaterThan(Time subject) {
 		return this.getTotalMinutes() > subject.getTotalMinutes();
