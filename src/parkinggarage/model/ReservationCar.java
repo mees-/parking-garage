@@ -52,4 +52,9 @@ public class ReservationCar extends Car {
   public Time getArrivalTime() {
     return arrivalTime;
   }
+  
+  @Override
+  public String toString() {
+	  return super.toString() + " reservationTime: " + time;
+  }
 }
