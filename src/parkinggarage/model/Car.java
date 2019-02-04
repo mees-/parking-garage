@@ -70,4 +70,12 @@ public class Car {
 	public CarType getType() {
 		return type;
 	}
+	
+	public String toString() {
+		return	super.toString() +
+				" entranceTime: " + entranceTime +
+				" exitTime: " + exitTime +
+				" type: " + type;
+	}
+
 }
