@@ -1,10 +1,10 @@
-package src.parkinggarage.controller;
+package parkinggarage.controller;
 
-import src.parkinggarage.util.CarType;
-import src.parkinggarage.util.Long;
-import src.parkinggarage.util.Random;
-import src.parkinggarage.util.Time;
-import src.parkinggarage.model.*;
+import parkinggarage.util.Time;
+
+import java.util.Random;
+
+import parkinggarage.model.*;
 
 public class Controller {
 

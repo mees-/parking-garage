@@ -21,7 +21,7 @@ public class App {
 		Settings settings = new Settings();
 		Simulator sim = new Simulator(settings);
 		StatCollector stats = new StatCollector(100000, sim);
-		View view = new View(shell, SWT.NO, settings.getFloors(), settings.getRows(), settings.getPlaces());
+		View view = new View(shell, SWT.NO, settings.getFloors(), settings.getRows(), settings.getPlaces(), settings);
 
 		shell.pack();
 		shell.open();
@@ -34,14 +34,22 @@ public class App {
 			}
 			view.updateView(sim.getGarage().getSpots());
 			view.updateParkingInfo(sim.getGarage().getNumberOfFreeSpots(), sim.getUnplannedEntrance().size() + sim.getSubscriberEntrance().size());
-			display.update();
+			
 			try {
-	            Thread.sleep(settings.getTickPause());
+				// Keep updating the GUI while waiting for the time between ticks to pass
+				int milisecondsToWait = settings.getTickPause();
+				for (int i = 0; i < milisecondsToWait; i++) {
+					display.readAndDispatch();
+					Thread.sleep(1);
+				}
+				if(milisecondsToWait <= 0) {
+					display.readAndDispatch();
+				}
 	        } catch (InterruptedException e) {
 	            e.printStackTrace();
 	        }
 			System.out.println(stats.toString());
-		}
+		} 
 		display.dispose();
 	}
 	/*

@@ -17,6 +17,8 @@ import org.swtchart.ISeries.SeriesType;
 
 import parkinggarage.model.CarType;
 import parkinggarage.model.Spot;
+import parkinggarage.util.Settings;
+
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.widgets.Scale;
@@ -27,6 +29,7 @@ public class View extends Composite {
 	private int floors;
 	private int rows;
 	private int places;
+	private Settings settings;
 	parkinggarage.model.Spot[] spots;
 	Image img;
 	
@@ -44,11 +47,12 @@ public class View extends Composite {
 	 * @param parent
 	 * @param style
 	 */
-	public View(Composite parent, int style, int floors, int rows, int places) {
+	public View(Composite parent, int style, int floors, int rows, int places, Settings settings) {
 		super(parent, style);
 		this.floors = floors;
 		this.rows = rows;
 		this.places = places;
+		this.settings = settings;
 		
 		setLayout(null);
 		
@@ -149,6 +153,7 @@ public class View extends Composite {
 			public void handleEvent(Event arg0) {
 				Scale sc = (Scale) arg0.widget;
 				label.setText(sc.getSelection() + " (0 - " + sc.getMaximum() + ")");
+				settings.setWeekDayUnplannedArrivals(sc.getSelection());
 			}
 		});
 		scale.setSelection(100);
@@ -173,6 +178,7 @@ public class View extends Composite {
 			public void handleEvent(Event arg0) {
 				Scale sc = (Scale) arg0.widget;
 				label_1.setText(sc.getSelection() + " (0 - " + sc.getMaximum() + ")");
+				settings.setWeekendUnplannedArrivals(sc.getSelection());
 			}
 		});
 		scale_1.setSelection(200);
@@ -201,6 +207,7 @@ public class View extends Composite {
 			public void handleEvent(Event arg0) {
 				Scale sc = (Scale) arg0.widget;
 				label_3.setText(sc.getSelection() + " (0 - " + sc.getMaximum() + ")");
+				settings.setWeekDaySubscriberArrivals(sc.getSelection());
 			}
 		});
 		scale_2.setSelection(50);
@@ -225,6 +232,7 @@ public class View extends Composite {
 			public void handleEvent(Event arg0) {
 				Scale sc = (Scale) arg0.widget;
 				label_5.setText(sc.getSelection() + " (0 - " + sc.getMaximum() + ")");
+				settings.setWeekendSubscriberArrivals(sc.getSelection());
 			}
 		});
 		scale_3.setSelection(5);
@@ -253,6 +261,7 @@ public class View extends Composite {
 			public void handleEvent(Event arg0) {
 				Scale sc = (Scale) arg0.widget;
 				label_7.setText(sc.getSelection() + " (0 - " + sc.getMaximum() + ")");
+				settings.setSubscriberEnterSpeed(sc.getSelection());
 			}
 		});
 		scale_4.setSelection(3);
@@ -277,6 +286,7 @@ public class View extends Composite {
 			public void handleEvent(Event arg0) {
 				Scale sc = (Scale) arg0.widget;
 				label_9.setText(sc.getSelection() + " (0 - " + sc.getMaximum() + ")");
+				settings.setUnplannedEnterSpeed(sc.getSelection());
 			}
 		});
 		scale_5.setSelection(3);
@@ -305,6 +315,7 @@ public class View extends Composite {
 			public void handleEvent(Event arg0) {
 				Scale sc = (Scale) arg0.widget;
 				label_11.setText(sc.getSelection() + " (0 - " + sc.getMaximum() + ")");
+				settings.setPaymentSpeed(sc.getSelection());
 			}
 		});
 		scale_6.setSelection(7);
@@ -329,6 +340,7 @@ public class View extends Composite {
 			public void handleEvent(Event arg0) {
 				Scale sc = (Scale) arg0.widget;
 				label_13.setText(sc.getSelection() + " (0 - " + sc.getMaximum() + ")");
+				settings.setExitSpeed(sc.getSelection());
 			}
 		});
 		scale_7.setSelection(5);
@@ -357,6 +369,7 @@ public class View extends Composite {
 			public void handleEvent(Event arg0) {
 				Scale sc = (Scale) arg0.widget;
 				label_15.setText(sc.getSelection() + " (0 - " + sc.getMaximum() + ")");
+				settings.setTickPause(sc.getSelection());
 			}
 		});
 		scale_8.setSelection(50);
@@ -381,6 +394,7 @@ public class View extends Composite {
 			public void handleEvent(Event arg0) {
 				Scale sc = (Scale) arg0.widget;
 				label_17.setText(sc.getSelection() / (double)int2DoubleMultiplier + " (0 - " + sc.getMaximum() / (double)int2DoubleMultiplier + ")");
+				settings.setReservationShowChance(sc.getSelection() / (double)int2DoubleMultiplier);
 			}
 		});
 		scale_9.setSelection(3 * 1000);
@@ -409,6 +423,7 @@ public class View extends Composite {
 			public void handleEvent(Event arg0) {
 				Scale sc = (Scale) arg0.widget;
 				label_19.setText(sc.getSelection() / (double)int2DoubleMultiplier + " (0 - " + sc.getMaximum() / (double)int2DoubleMultiplier + ")");
+				settings.setQueueLeaveThreshold(sc.getSelection() / (double)int2DoubleMultiplier);
 			}
 		});
 		scale_10.setSelection(5 * 1000);
@@ -433,6 +448,7 @@ public class View extends Composite {
 			public void handleEvent(Event arg0) {
 				Scale sc = (Scale) arg0.widget;
 				label_21.setText(sc.getSelection() / (double)int2DoubleMultiplier + " (0 - " + sc.getMaximum() / (double)int2DoubleMultiplier + ")");
+				settings.setQueueLeaveScaling(sc.getSelection() / (double)int2DoubleMultiplier);
 			}
 		});
 		scale_11.setSelection(8 * 1000);
