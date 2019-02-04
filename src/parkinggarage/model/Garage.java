@@ -1,3 +1,6 @@
+/**
+ * @author Mees van Dijk
+ */
 package parkinggarage.model;
 
 import java.util.ArrayList;

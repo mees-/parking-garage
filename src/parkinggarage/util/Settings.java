@@ -1,3 +1,6 @@
+/**
+ * @author Mees van Dijk
+ */
 package parkinggarage.util;
 
 import java.util.Random;
