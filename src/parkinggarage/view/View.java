@@ -2,6 +2,7 @@ package parkinggarage.view;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Canvas;
 
 import org.eclipse.swt.SWT;
@@ -9,6 +10,7 @@ import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.swtchart.*;
 import org.swtchart.ISeries.SeriesType;
@@ -17,8 +19,11 @@ import parkinggarage.model.CarType;
 import parkinggarage.model.Spot;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.widgets.Scale;
+import org.eclipse.swt.layout.FillLayout;
 
 public class View extends Composite {
+	private static final int int2DoubleMultiplier = 1000;
 	private int floors;
 	private int rows;
 	private int places;
@@ -108,9 +113,6 @@ public class View extends Composite {
 		dayTime.setAlignment(SWT.RIGHT);
 		dayTime.setText("Monday 7:35");
 		
-		TabItem tbtmAgenda = new TabItem(tabFolder, SWT.NONE);
-		tbtmAgenda.setText("Agenda");
-		
 		TabItem tbtmGraphs = new TabItem(tabFolder, SWT.NONE);
 		tbtmGraphs.setText("Graphs");
 		
@@ -119,6 +121,328 @@ public class View extends Composite {
 		
 		chart = new Chart(composite_1, SWT.NONE);
 		chart.setBounds(10, 10, 772, 552);
+		
+		TabItem tbtmSettings = new TabItem(tabFolder, SWT.NONE);
+		tbtmSettings.setText("Settings");
+		
+		Composite settingsTab = new Composite(tabFolder, SWT.NONE);
+		tbtmSettings.setControl(settingsTab);
+		settingsTab.setLayout(new FillLayout(SWT.VERTICAL));
+		
+		// Settings
+		
+		Composite horizontalLayout = new Composite(settingsTab, SWT.NONE);
+		horizontalLayout.setLayout(new FillLayout(SWT.HORIZONTAL));
+		
+		//<----------------------------------------------------------->
+		Composite weekdayUnplannedArivalsComp = new Composite(horizontalLayout, SWT.NONE);
+		
+		Label label = new Label(weekdayUnplannedArivalsComp, SWT.NONE);
+		label.setBounds(186, 43, 100, 15);
+		
+		Scale scale = new Scale(weekdayUnplannedArivalsComp, SWT.NONE);
+		scale.setBounds(10, 30, 170, 42);
+		scale.setMaximum(500);
+		scale.addListener(SWT.Selection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event arg0) {
+				Scale sc = (Scale) arg0.widget;
+				label.setText(sc.getSelection() + " (0 - " + sc.getMaximum() + ")");
+			}
+		});
+		scale.setSelection(100);
+		label.setText(scale.getSelection() + " (0 - " + scale.getMaximum() + ")");
+		
+		Label lblTimeBetweenTicksmiliseconds = new Label(weekdayUnplannedArivalsComp, SWT.NONE);
+		lblTimeBetweenTicksmiliseconds.setBounds(10, 10, 250, 15);
+		lblTimeBetweenTicksmiliseconds.setText("weekday Unplanned Arivals");
+
+		//<----------------------------------------------------------->
+		Composite weekendUnplannedArrivalsComp = new Composite(horizontalLayout, SWT.NONE);
+		
+		Label label_1 = new Label(weekendUnplannedArrivalsComp, SWT.NONE);
+		label_1.setBounds(186, 43, 100, 15);
+		
+		Scale scale_1 = new Scale(weekendUnplannedArrivalsComp, SWT.NONE);
+		scale_1.setBounds(10, 30, 170, 42);
+		scale_1.setMaximum(500);
+		scale_1.addListener(SWT.Selection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event arg0) {
+				Scale sc = (Scale) arg0.widget;
+				label_1.setText(sc.getSelection() + " (0 - " + sc.getMaximum() + ")");
+			}
+		});
+		scale_1.setSelection(200);
+		label_1.setText(scale_1.getSelection() + " (0 - " + scale_1.getMaximum() + ")");
+		
+		Label label_2 = new Label(weekendUnplannedArrivalsComp, SWT.NONE);
+		label_2.setText("weekend Unplanned Arrivals");
+		label_2.setBounds(10, 10, 250, 15);
+
+		//<----------------------------------------------------------->
+		Composite composite_4 = new Composite(settingsTab, SWT.NONE);
+		composite_4.setLayout(new FillLayout(SWT.HORIZONTAL));
+
+		//<----------------------------------------------------------->
+		Composite weekDaySubscriberArrivalsComp = new Composite(composite_4, SWT.NONE);
+		
+		Label label_3 = new Label(weekDaySubscriberArrivalsComp, SWT.NONE);
+		label_3.setBounds(186, 43, 100, 15);
+		
+		Scale scale_2 = new Scale(weekDaySubscriberArrivalsComp, SWT.NONE);
+		scale_2.setBounds(10, 30, 170, 42);
+		scale_2.setMaximum(500);
+		scale_2.addListener(SWT.Selection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event arg0) {
+				Scale sc = (Scale) arg0.widget;
+				label_3.setText(sc.getSelection() + " (0 - " + sc.getMaximum() + ")");
+			}
+		});
+		scale_2.setSelection(50);
+		label_3.setText(scale_2.getSelection() + " (0 - " + scale_2.getMaximum() + ")");
+		
+		Label label_4 = new Label(weekDaySubscriberArrivalsComp, SWT.NONE);
+		label_4.setText("weekDay Subscriber Arrivals");
+		label_4.setBounds(10, 10, 250, 15);
+
+		//<----------------------------------------------------------->
+		Composite weekendDaySubscriberArrivalsComp = new Composite(composite_4, SWT.NONE);
+		
+		Label label_5 = new Label(weekendDaySubscriberArrivalsComp, SWT.NONE);
+		label_5.setBounds(186, 43, 100, 15);
+		
+		Scale scale_3 = new Scale(weekendDaySubscriberArrivalsComp, SWT.NONE);
+		scale_3.setBounds(10, 30, 170, 42);
+		scale_3.setMaximum(500);
+		scale_3.addListener(SWT.Selection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event arg0) {
+				Scale sc = (Scale) arg0.widget;
+				label_5.setText(sc.getSelection() + " (0 - " + sc.getMaximum() + ")");
+			}
+		});
+		scale_3.setSelection(5);
+		label_5.setText(scale_3.getSelection() + " (0 - " + scale_3.getMaximum() + ")");
+		
+		Label label_6 = new Label(weekendDaySubscriberArrivalsComp, SWT.NONE);
+		label_6.setText("weekend Day Subscriber Arrivals");
+		label_6.setBounds(10, 10, 250, 15);
+
+		//<----------------------------------------------------------->
+		Composite composite_7 = new Composite(settingsTab, SWT.NONE);
+		composite_7.setLayout(new FillLayout(SWT.HORIZONTAL));
+
+		//<----------------------------------------------------------->
+		Composite subscriberEnterSpeedComp = new Composite(composite_7, SWT.NONE);
+		
+		Label label_7 = new Label(subscriberEnterSpeedComp, SWT.NONE);
+		label_7.setBounds(186, 43, 100, 15);
+		
+		Scale scale_4 = new Scale(subscriberEnterSpeedComp, SWT.NONE);
+		scale_4.setBounds(10, 30, 170, 42);
+		scale_4.setMaximum(20);
+		scale_4.addListener(SWT.Selection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event arg0) {
+				Scale sc = (Scale) arg0.widget;
+				label_7.setText(sc.getSelection() + " (0 - " + sc.getMaximum() + ")");
+			}
+		});
+		scale_4.setSelection(3);
+		label_7.setText(scale_4.getSelection() + " (0 - " + scale_4.getMaximum() + ")");
+		
+		Label label_8 = new Label(subscriberEnterSpeedComp, SWT.NONE);
+		label_8.setText("subscriber Enter Speed");
+		label_8.setBounds(10, 10, 250, 15);
+
+		//<----------------------------------------------------------->
+		Composite unplannedEnterSpeedComp = new Composite(composite_7, SWT.NONE);
+		
+		Label label_9 = new Label(unplannedEnterSpeedComp, SWT.NONE);
+		label_9.setBounds(186, 43, 100, 15);
+		
+		Scale scale_5 = new Scale(unplannedEnterSpeedComp, SWT.NONE);
+		scale_5.setBounds(10, 30, 170, 42);
+		scale_5.setMaximum(20);
+		scale_5.addListener(SWT.Selection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event arg0) {
+				Scale sc = (Scale) arg0.widget;
+				label_9.setText(sc.getSelection() + " (0 - " + sc.getMaximum() + ")");
+			}
+		});
+		scale_5.setSelection(3);
+		label_9.setText(scale_5.getSelection() + " (0 - " + scale_5.getMaximum() + ")");
+		
+		Label label_10 = new Label(unplannedEnterSpeedComp, SWT.NONE);
+		label_10.setText("unplanned Enter Speed");
+		label_10.setBounds(10, 10, 250, 15);
+
+		//<----------------------------------------------------------->
+		Composite composite_10 = new Composite(settingsTab, SWT.NONE);
+		composite_10.setLayout(new FillLayout(SWT.HORIZONTAL));
+
+		//<----------------------------------------------------------->
+		Composite paymentSpeedComp = new Composite(composite_10, SWT.NONE);
+		
+		Label label_11 = new Label(paymentSpeedComp, SWT.NONE);
+		label_11.setBounds(186, 43, 100, 15);
+		
+		Scale scale_6 = new Scale(paymentSpeedComp, SWT.NONE);
+		scale_6.setBounds(10, 30, 170, 42);
+		scale_6.setMaximum(20);
+		scale_6.addListener(SWT.Selection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event arg0) {
+				Scale sc = (Scale) arg0.widget;
+				label_11.setText(sc.getSelection() + " (0 - " + sc.getMaximum() + ")");
+			}
+		});
+		scale_6.setSelection(7);
+		label_11.setText(scale_6.getSelection() + " (0 - " + scale_6.getMaximum() + ")");
+		
+		Label label_12 = new Label(paymentSpeedComp, SWT.NONE);
+		label_12.setText("payment Speed");
+		label_12.setBounds(10, 10, 250, 15);
+
+		//<----------------------------------------------------------->
+		Composite exitSpeedComp = new Composite(composite_10, SWT.NONE);
+		
+		Label label_13 = new Label(exitSpeedComp, SWT.NONE);
+		label_13.setBounds(186, 43, 100, 15);
+		
+		Scale scale_7 = new Scale(exitSpeedComp, SWT.NONE);
+		scale_7.setBounds(10, 30, 170, 42);
+		scale_7.setMaximum(20);
+		scale_7.addListener(SWT.Selection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event arg0) {
+				Scale sc = (Scale) arg0.widget;
+				label_13.setText(sc.getSelection() + " (0 - " + sc.getMaximum() + ")");
+			}
+		});
+		scale_7.setSelection(5);
+		label_13.setText(scale_7.getSelection() + " (0 - " + scale_7.getMaximum() + ")");
+		
+		Label label_14 = new Label(exitSpeedComp, SWT.NONE);
+		label_14.setText("exit Speed");
+		label_14.setBounds(10, 10, 250, 15);
+
+		//<----------------------------------------------------------->
+		Composite composite_13 = new Composite(settingsTab, SWT.NONE);
+		composite_13.setLayout(new FillLayout(SWT.HORIZONTAL));
+
+		//<----------------------------------------------------------->
+		Composite tickPauseComp = new Composite(composite_13, SWT.NONE);
+		
+		Label label_15 = new Label(tickPauseComp, SWT.NONE);
+		label_15.setBounds(186, 43, 100, 15);
+		
+		Scale scale_8 = new Scale(tickPauseComp, SWT.NONE);
+		scale_8.setBounds(10, 30, 170, 42);
+		scale_8.setMaximum(1000);
+		scale_8.addListener(SWT.Selection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event arg0) {
+				Scale sc = (Scale) arg0.widget;
+				label_15.setText(sc.getSelection() + " (0 - " + sc.getMaximum() + ")");
+			}
+		});
+		scale_8.setSelection(50);
+		label_15.setText(scale_8.getSelection() + " (0 - " + scale_8.getMaximum() + ")");
+		
+		Label label_16 = new Label(tickPauseComp, SWT.NONE);
+		label_16.setText("tick Pause");
+		label_16.setBounds(10, 10, 250, 15);
+
+		//<----------------------------------------------------------->
+		Composite reservationShowChanceComp = new Composite(composite_13, SWT.NONE);
+		
+		Label label_17 = new Label(reservationShowChanceComp, SWT.NONE);
+		label_17.setBounds(186, 43, 100, 15);
+		
+		Scale scale_9 = new Scale(reservationShowChanceComp, SWT.NONE);
+		scale_9.setBounds(10, 30, 170, 42);
+		scale_9.setMaximum(10 * int2DoubleMultiplier);
+		scale_9.addListener(SWT.Selection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event arg0) {
+				Scale sc = (Scale) arg0.widget;
+				label_17.setText(sc.getSelection() / (double)int2DoubleMultiplier + " (0 - " + sc.getMaximum() / (double)int2DoubleMultiplier + ")");
+			}
+		});
+		scale_9.setSelection(3 * 1000);
+		label_17.setText(scale_9.getSelection() / (double)int2DoubleMultiplier + " (0 - " + scale_9.getMaximum() / (double)int2DoubleMultiplier + ")");
+		
+		Label label_18 = new Label(reservationShowChanceComp, SWT.NONE);
+		label_18.setText("reservation Show Chance");
+		label_18.setBounds(10, 10, 250, 15);
+
+		//<----------------------------------------------------------->
+		Composite composite_16 = new Composite(settingsTab, SWT.NONE);
+		composite_16.setLayout(new FillLayout(SWT.HORIZONTAL));
+
+		//<----------------------------------------------------------->
+		Composite queueLeaveThresholdComp = new Composite(composite_16, SWT.NONE);
+		
+		Label label_19 = new Label(queueLeaveThresholdComp, SWT.NONE);
+		label_19.setBounds(186, 43, 100, 15);
+		
+		Scale scale_10 = new Scale(queueLeaveThresholdComp, SWT.NONE);
+		scale_10.setBounds(10, 30, 170, 42);
+		scale_10.setMaximum(10 * int2DoubleMultiplier);
+		scale_10.addListener(SWT.Selection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event arg0) {
+				Scale sc = (Scale) arg0.widget;
+				label_19.setText(sc.getSelection() / (double)int2DoubleMultiplier + " (0 - " + sc.getMaximum() / (double)int2DoubleMultiplier + ")");
+			}
+		});
+		scale_10.setSelection(5 * 1000);
+		label_19.setText(scale_10.getSelection() / (double)int2DoubleMultiplier + " (0 - " + scale_10.getMaximum() / (double)int2DoubleMultiplier + ")");
+		
+		Label label_20 = new Label(queueLeaveThresholdComp, SWT.NONE);
+		label_20.setText("queue Leave Threshold");
+		label_20.setBounds(10, 10, 250, 15);
+
+		//<----------------------------------------------------------->
+		Composite queueLeaveScalingComp = new Composite(composite_16, SWT.NONE);
+		
+		Label label_21 = new Label(queueLeaveScalingComp, SWT.NONE);
+		label_21.setBounds(186, 43, 100, 15);
+		
+		Scale scale_11 = new Scale(queueLeaveScalingComp, SWT.NONE);
+		scale_11.setBounds(10, 30, 170, 42);
+		scale_11.setMaximum(10 * int2DoubleMultiplier);
+		scale_11.addListener(SWT.Selection, new Listener() {
+			
+			@Override
+			public void handleEvent(Event arg0) {
+				Scale sc = (Scale) arg0.widget;
+				label_21.setText(sc.getSelection() / (double)int2DoubleMultiplier + " (0 - " + sc.getMaximum() / (double)int2DoubleMultiplier + ")");
+			}
+		});
+		scale_11.setSelection(8 * 1000);
+		label_21.setText(scale_11.getSelection() / (double)int2DoubleMultiplier + " (0 - " + scale_11.getMaximum() / (double)int2DoubleMultiplier + ")");
+		
+		Label label_22 = new Label(queueLeaveScalingComp, SWT.NONE);
+		label_22.setText("queue Leave Scaling");
+		label_22.setBounds(10, 10, 250, 15);
+		//<----------------------------------------------------------->
+		
 		chart.getTitle().setText("Line Chart");
 		chart.getAxisSet().getXAxis(0).getTitle().setText("Data Points");
 		chart.getAxisSet().getYAxis(0).getTitle().setText("Amplitude");

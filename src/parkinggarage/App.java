@@ -1,8 +1,5 @@
 package parkinggarage;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Display;
@@ -36,7 +33,7 @@ public class App {
 				stats.tick();
 			}
 			view.updateView(sim.getGarage().getSpots());
-			view.updateParkingInfo(sim.getGarage().getNumberOfFreeSpots(), 0);
+			view.updateParkingInfo(sim.getGarage().getNumberOfFreeSpots(), sim.getUnplannedEntrance().size() + sim.getSubscriberEntrance().size());
 			display.update();
 			try {
 	            Thread.sleep(settings.getTickPause());
