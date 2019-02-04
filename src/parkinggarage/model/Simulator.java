@@ -157,7 +157,10 @@ public class Simulator implements Ticker {
 		}
 
 		carsArrivedLastTick.put(CarType.RESERVATION, 0);
-		for (ReservationCar reservation : reservations) {
+		
+		Iterator<ReservationCar> iter = reservations.iterator();
+		while (iter.hasNext()) {
+			ReservationCar reservation = iter.next();
 			if (reservation.getStartTime().smallerThanOrEquals(time)
 					&& reservation.getSpot() == null) {
 						Spot spot = garage.getFreeSpot(CarType.UNPLANNED);
@@ -168,7 +171,7 @@ public class Simulator implements Ticker {
 			}
 			if (reservation.getEndTime().smallerThanOrEquals(time)) {
 				reservation.getSpot().freeReservation();
-				reservations.remove(reservation);
+				iter.remove();
 			}
 			if (reservation.getArrivalTime() != null
 						&& reservation.getArrivalTime().smallerThanOrEquals(time)
