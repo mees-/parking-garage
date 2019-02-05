@@ -39,7 +39,17 @@ public class ReservationCar extends Car {
   }
 
   public void setSpot(Spot spot) {
-    this.spot = spot;
+    if (spot.getType() == CarType.RESERVATION) {
+    	this.spot = spot;
+    } else {
+    	throw new IllegalArgumentException("Can't assign spot with type " +
+    			spot.getType() + " to ReserationCar");
+    }
+  }
+  
+  public void freeSpot() {
+	  spot.freeReservation();
+	  spot = null;
   }
 
   public Time getStartTime() {
