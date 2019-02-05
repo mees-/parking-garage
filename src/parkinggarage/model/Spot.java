@@ -108,10 +108,15 @@ public class Spot {
 	}
 	
 	public void reserve() {
-		if (type == CarType.UNPLANNED) {
-			type = CarType.RESERVATION;
+		if (car == null) {
+			
+			if (type == CarType.UNPLANNED) {
+				type = CarType.RESERVATION;
+			} else {
+				throw new IllegalStateException("Cannot reserve spot with type: " + type);
+			}
 		} else {
-			throw new IllegalStateException("Cannot reserve spot with type: " + type);
+			throw new IllegalStateException("Cannot reserve occupied spot");
 		}
 	}
 

@@ -88,13 +88,25 @@ public class Simulator implements Ticker {
 			Spot newSpot;
 			if (arrivingCar instanceof ReservationCar) {
 				newSpot = ((ReservationCar) arrivingCar).getSpot();
+				if (newSpot == null) {
+					// try again
+					newSpot = garage.getFreeSpot(CarType.UNPLANNED);
+					if (newSpot != null) {
+						newSpot.reserve();
+					}
+				}
 			} else {
 				newSpot = garage.getFreeSpot(CarType.SUBSCRIBER);
 			}
 			if (newSpot == null) {
+				subscriberEntrance.addFirst(arrivingCar);
 				break;
 			}
-			newSpot.setCar(arrivingCar);
+			try {
+				newSpot.setCar(arrivingCar);
+			} catch (Exception e) {
+				throw e;
+			}
 			arrivingCar.setEntranceTime(time);
 		}
 		
@@ -176,7 +188,9 @@ public class Simulator implements Ticker {
 						}
 			}
 			if (reservation.getEndTime().smallerThan(time)) {
-				reservation.getSpot().freeReservation();
+				if (reservation.getSpot() != null) {
+					reservation.freeSpot();
+				}
 				iter.remove();
 			}
 			if (reservation.getArrivalTime() != null
