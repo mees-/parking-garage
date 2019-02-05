@@ -15,6 +15,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.swtchart.*;
 import org.swtchart.ISeries.SeriesType;
 
+import parkinggarage.model.Car;
 import parkinggarage.model.CarType;
 import parkinggarage.model.Spot;
 import parkinggarage.util.Settings;
@@ -49,10 +50,13 @@ public class View extends Composite {
 	 */
 	public View(Composite parent, int style, int floors, int rows, int places, Settings settings) {
 		super(parent, style);
+		
 		this.floors = floors;
 		this.rows = rows;
 		this.places = places;
 		this.settings = settings;
+		
+		Device device = Display.getCurrent ();
 		
 		setLayout(null);
 		
@@ -111,6 +115,20 @@ public class View extends Composite {
 		lblFreeSpots.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
 		lblFreeSpots.setBackground(SWTResourceManager.getColor(50, 205, 50));
 		lblFreeSpots.setBounds(230, 538, 104, 24);
+		
+		Label lblFreeSubscriberSpots = new Label(composite, SWT.CENTER);
+		lblFreeSubscriberSpots.setText("Subscriber spots");
+		lblFreeSubscriberSpots.setForeground(new Color(device, 255, 255, 255));
+		lblFreeSubscriberSpots.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
+		lblFreeSubscriberSpots.setBackground(SWTResourceManager.getColor(255, 164, 134));
+		lblFreeSubscriberSpots.setBounds(340, 538, 104, 24);
+		
+		Label lblReservation = new Label(composite, SWT.CENTER);
+		lblReservation.setText("Reserved spots");
+		lblReservation.setForeground(new Color(device, 255, 255, 255));
+		lblReservation.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
+		lblReservation.setBackground(SWTResourceManager.getColor(0, 204, 255));
+		lblReservation.setBounds(450, 538, 104, 24);
 		
 		dayTime = new Label(composite, SWT.NONE);
 		dayTime.setBounds(637, 10, 145, 15);
@@ -397,7 +415,7 @@ public class View extends Composite {
 				settings.setReservationShowChance(sc.getSelection() / (double)int2DoubleMultiplier);
 			}
 		});
-		scale_9.setSelection(3 * 1000);
+		scale_9.setSelection(3 * int2DoubleMultiplier);
 		label_17.setText(scale_9.getSelection() / (double)int2DoubleMultiplier + " (0 - " + scale_9.getMaximum() / (double)int2DoubleMultiplier + ")");
 		
 		Label label_18 = new Label(reservationShowChanceComp, SWT.NONE);
@@ -426,7 +444,7 @@ public class View extends Composite {
 				settings.setQueueLeaveThreshold(sc.getSelection() / (double)int2DoubleMultiplier);
 			}
 		});
-		scale_10.setSelection(5 * 1000);
+		scale_10.setSelection(5 * int2DoubleMultiplier);
 		label_19.setText(scale_10.getSelection() / (double)int2DoubleMultiplier + " (0 - " + scale_10.getMaximum() / (double)int2DoubleMultiplier + ")");
 		
 		Label label_20 = new Label(queueLeaveThresholdComp, SWT.NONE);
@@ -451,7 +469,7 @@ public class View extends Composite {
 				settings.setQueueLeaveScaling(sc.getSelection() / (double)int2DoubleMultiplier);
 			}
 		});
-		scale_11.setSelection(8 * 1000);
+		scale_11.setSelection(8 * int2DoubleMultiplier);
 		label_21.setText(scale_11.getSelection() / (double)int2DoubleMultiplier + " (0 - " + scale_11.getMaximum() / (double)int2DoubleMultiplier + ")");
 		
 		Label label_22 = new Label(queueLeaveScalingComp, SWT.NONE);
@@ -513,8 +531,8 @@ public class View extends Composite {
                     if(spots != null && i < spots.length)
                     	spot = spots[i];
                     
-                    parkinggarage.model.Car car = spot == null ? null : spot.getCar();
-                    int color = car == null ? 0x32cd32 : car.getType() == CarType.UNPLANNED ? 0xff0000 : 0x0000ff;
+                    Car car = spot == null ? null : spot.getCar();
+                    int color = GetColor(car, i);
                     
                     int x = (int) Math.floor((floor * rows * (25 + rows / 2 * 3) + row * (20 + rows / 2 * 3) + ((row + 1) % 2) * 3 + floor * 3) * scalex) + 7;
                     int y = place *  height + place;
@@ -533,4 +551,19 @@ public class View extends Composite {
 		
 		arg.gc.drawImage(img, 0, 0);
     }
+	private int GetColor(Car car, int index) {
+		if(car == null)
+			return index < settings.getSubscriberSpots() ? 0x86a4ff : 0x32cd32;
+		
+		CarType type = car.getType();
+		switch (type) {
+		case RESERVATION:
+			return 0xffcc00;
+		case SUBSCRIBER:
+			return 0x0000ff;
+		case UNPLANNED:
+			return 0xff0000;
+		}
+		return car == null ? 0x32cd32 : car.getType() == CarType.UNPLANNED ? 0xff0000 : car.getType() == CarType.RESERVATION ? 0x000000 : 0x0000ff;
+	}
 }

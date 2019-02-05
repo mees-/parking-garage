@@ -45,6 +45,7 @@ public class App {
 				if(milisecondsToWait <= 0) {
 					display.readAndDispatch();
 				}
+				display.update();
 	        } catch (InterruptedException e) {
 	            e.printStackTrace();
 	        }
